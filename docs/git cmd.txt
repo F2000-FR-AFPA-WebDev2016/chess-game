@@ -1,0 +1,15 @@
+git clone https://github.com/F2000-FR-AFPA-WebDev2016/chess-game.git
+ll
+git add ProjetChess.pdf
+
+git commit -m "ajout docs"
+
+git pull
+
+git add .
+
+git commit -m "Init project"
+
+git status
+
+git push
