@@ -1,0 +1,5 @@
+afpa_chess_game:
+    resource: "@AfpaChessGameBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
