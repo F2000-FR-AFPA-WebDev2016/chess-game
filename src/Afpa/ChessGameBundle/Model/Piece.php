@@ -2,24 +2,26 @@
 
 namespace Afpa\ChessGameBundle\Model;
 
-Abstract class Piece {
+abstract class Piece {
+
+    const TYPE = 'default';
+    const BLACK = 'black';
+    const WHITE = 'white';
 
     /**
      * @var string
-     *
-
      */
-    private $color;
+    protected $color;
 
     /**
      * @var array
-     *
-
      */
-    private $position;
+    protected $position;
 
-    public function move() {
+    abstract public function move();
 
+    public function __toString() {
+        return self::TYPE . '_' . $this->color . '.png';
     }
 
 }

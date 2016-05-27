@@ -8,6 +8,8 @@ namespace Afpa\ChessGameBundle\Model;
  */
 class Chessboard {
 
+    const MAX_SIZE = 7;
+
     /**
      * @var integer
      *
@@ -190,6 +192,36 @@ class Chessboard {
      */
     public function getIsCheckmate() {
         return $this->isCheckmate;
+    }
+
+//initialisation d'un board de 64 cases (8x8)
+    public function __construct() {
+        $this->board = array();
+        for ($i = 0; $i <= self::MAX_SIZE; $i++) {
+            $this->board[$i] = array();
+            for ($j = 0; $j <= self::MAX_SIZE; $j++) {
+                $this->board[$i][$j] = "$i,$j";
+            }
+        }
+
+        $this->board[0][0] = $this->board[0][7] = new Rook(Piece::BLACK);
+        $this->board[0][1] = $this->board[0][6] = new Knight(Piece::BLACK);
+        $this->board[0][2] = $this->board[0][5] = new Bishop(Piece::BLACK);
+        $this->board[0][3] = new King(Piece::BLACK);
+        $this->board[0][4] = new Queen(Piece::BLACK);
+        for ($i = 0; $i <= self::MAX_SIZE; $i++) {
+            $this->board[1][$i] = new Pawn(Piece::BLACK);
+        }
+
+
+        $this->board[7][0] = $this->board[7][7] = new Rook(Piece::WHITE);
+        $this->board[7][1] = $this->board[7][6] = new Knight(Piece::WHITE);
+        $this->board[7][2] = $this->board[7][5] = new Bishop(Piece::WHITE);
+        $this->board[7][3] = new King(Piece::WHITE);
+        $this->board[7][4] = new Queen(Piece::WHITE);
+        for ($i = 0; $i <= self::MAX_SIZE; $i++) {
+            $this->board[6][$i] = new Pawn(Piece::WHITE);
+        }
     }
 
 }
