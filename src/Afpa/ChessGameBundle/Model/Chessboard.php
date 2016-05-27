@@ -200,7 +200,7 @@ class Chessboard {
         for ($i = 0; $i <= self::MAX_SIZE; $i++) {
             $this->board[$i] = array();
             for ($j = 0; $j <= self::MAX_SIZE; $j++) {
-                $this->board[$i][$j] = "$i,$j";
+                $this->board[$i][$j] = "";
             }
         }
 

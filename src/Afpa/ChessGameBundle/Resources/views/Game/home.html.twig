@@ -22,7 +22,9 @@
                 <tr>
                     {% for y in (0..board|length-1) %}
                         <td class="td_{{ ((x+y) % 2 == 0) ? 'light' : 'dark' }}" background-color="#fcfcfc">
-                            <img src="{{ asset('bundles/afpachessgame/images/'~ theme ~'/' ~ board[x][y]) }}" />
+                            {% if board[x][y] %}
+                                <img src="{{ asset('bundles/afpachessgame/images/'~ theme ~'/' ~ board[x][y]) }}" />
+                            {% endif %}
                         </td>
                     {% endfor %}
                 </tr>
