@@ -5,20 +5,21 @@ namespace Afpa\ChessGameBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Afpa\ChessGameBundle\Model\Chessboard;
 
 class GameController extends Controller {
 
     protected $theme = 'default';
 
     /**
-     * @Route("/home")
+     * @Route("/")
      * @Template()
      */
     public function homeAction() {
-        $aPlateau = array();
+        $oChessboard = new Chessboard();
         return $this->render('AfpaChessGameBundle:Game:home.html.twig', array(
                     'theme' => $this->theme,
-                    'board' => $aPlateau
+                    'board' => $oChessboard->getBoard()
         ));
     }
 
