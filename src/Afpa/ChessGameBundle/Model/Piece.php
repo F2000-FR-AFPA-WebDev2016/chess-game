@@ -19,8 +19,13 @@ abstract class Piece {
 
     abstract public function move();
 
+    public function __construct($color) {
+        $this->color = $color;
+    }
+
     public function __toString() {
-        return strtolower(get_class($this)) . '_' . $this->color . '.png';
+        $path = explode('\\', get_class($this));
+        return strtolower(array_pop($path)) . '_' . $this->color . '.png';
     }
 
 }
