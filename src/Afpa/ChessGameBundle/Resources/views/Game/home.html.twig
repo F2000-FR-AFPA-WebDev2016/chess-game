@@ -4,4 +4,21 @@
 
 {% block body %}
     <h1>Welcome at the Game:home page</h1>
+    <table width="100px" height="100px" border="1px">
+        <thead>
+
+        </thead>
+        <tbody>
+            {% for x in (0..board|length-1) %}
+                <tr>
+                    {% for y in (0..board|length-1) %}
+                        <td background-color="#fcfcfc">
+                            {{ board[x][y] }}
+                            <img src="{{ asset('bundles/afpachessgame/images/'~ theme ~'/' ~ board[x][y]) }}" />
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
