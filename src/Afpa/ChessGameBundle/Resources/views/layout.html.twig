@@ -7,12 +7,24 @@
         <script type="text/javascript" src="{{ asset('bundles/afpachessgame/js/jquery-1.12.3.js') }}"></script>
         <script>
             $(document).ready(function () {
+                first_click = true;
+
                 $("#board td").click(function () {
                     // test 1 : Si c'est le premier click
-                    // si oui , test 2 : y'atil une piece sur la case
-                    // si oui, selectionner la piece
+                    if (first_click) {
+                        // si oui , test 2 : y'atil une piece sur la case
+                        if ($(this).html().indexOf('img') >= 0) {
 
-                    $(this).css("background-color", "blue");
+                            // si oui, selectionner la piece
+
+                            $(this).css("background-color", "blue");
+
+
+                            first_click = false;
+                        }
+                    }
+
+                    //$(this).css("background-color", "blue");
                     console.log($(this).data('x') + ',' + $(this).data('y'));
                 });
             });
