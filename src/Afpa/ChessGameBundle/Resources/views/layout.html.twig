@@ -3,11 +3,26 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Chess Game{% endblock %}</title>
+
+        <script type="text/javascript" src="{{ asset('bundles/afpachessgame/js/jquery-1.12.3.js') }}"></script>
+        <script>
+            $(document).ready(function () {
+                $("#board td").click(function () {
+                    // test 1 : Si c'est le premier click
+                    // si oui , test 2 : y'atil une piece sur la case
+                    // si oui, selectionner la piece
+
+                    $(this).css("background-color", "blue");
+                    console.log($(this).data('x') + ',' + $(this).data('y'));
+                });
+            });
+        </script>
+
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <header>
-    <div><img src="{{asset("bundles/afpachessgame/images/dame.png")}}"/>
+    <div>
     </div>
 </header>
 <body>
