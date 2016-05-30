@@ -23,6 +23,10 @@ abstract class Piece {
         $this->color = $color;
     }
 
+    public function getColor() {
+        return $this->color;
+    }
+
     public function __toString() {
         $path = explode('\\', get_class($this));
         return strtolower(array_pop($path)) . '_' . $this->color . '.png';

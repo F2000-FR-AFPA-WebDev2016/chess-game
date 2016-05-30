@@ -12,52 +12,43 @@ class Chessboard {
 
     /**
      * @var integer
-     *
-
      */
     private $id;
 
     /**
      * @var array
-     *
-
      */
     private $cases;
 
     /**
      * @var array
-     *
-
      */
     private $board;
 
     /**
      * @var array
-     *
-
      */
     private $whitePieces;
 
     /**
      * @var array
-     *
-
      */
     private $blackPieces;
 
     /**
      * @var boolean
-     *
-
      */
     private $isInCheck;
 
     /**
      * @var boolean
-     *
-
      */
     private $isCheckmate;
+
+    /**
+     * @var boolean
+     */
+    private $playerTurn;
 
     /**
      * Get id
@@ -222,6 +213,23 @@ class Chessboard {
         for ($i = 0; $i <= self::MAX_SIZE; $i++) {
             $this->board[6][$i] = new Pawn(Piece::WHITE);
         }
+
+        $this->playerTurn = Piece::WHITE;
+    }
+
+    public function getPlayerTurn() {
+        if ($this->playerTurn == Piece::WHITE) {
+            return 'Joueur Blanc';
+        } else {
+            return 'Joueur Noir';
+        }
+    }
+
+    public function doAction($x, $y) {
+        return array(
+            'status' => 'success',
+            'possibilities' => array(),
+        );
     }
 
 }
