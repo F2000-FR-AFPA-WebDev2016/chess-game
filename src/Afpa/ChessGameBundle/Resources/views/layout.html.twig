@@ -2,13 +2,35 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Chess Game{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{{asset("bundles/afpachessgame/css/global.css")}}" />
+        <title id="title_principale">{% block title %}Chess Game{% endblock %}</title>
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <header>
-    <div><img src="{{asset("bundles/afpachessgame/images/dame.png")}}"/>
-    </div>
+    {% block header %}
+
+        <div id="titre_principal">
+            <div id="logo">
+                <img src="{{asset("bundles/AfpaChessGame/images/default/logo.jpg")}}"/>
+                <h1>Chess Game</h1>
+            </div>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="#">Accueil</a></li>
+                <li><a href="#">Credit</a></li>
+                <li><a href="#">Rules</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+
+        {% block img %}
+
+        {% endblock %}
+
+    {% endblock %}
 </header>
 <body>
     {% block body %}

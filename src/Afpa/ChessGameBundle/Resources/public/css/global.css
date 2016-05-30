@@ -1,0 +1,93 @@
+body
+
+{
+
+
+    max-width:1200px;
+    margin: auto;
+}
+header
+{
+    background: url('../images/default/couverture1.jpg') repeat-x bottom;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    min-height: 150px;
+
+
+
+}
+#titre_principal
+{
+    display: flex;
+    flex-direction: column;
+}
+
+#logo
+{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+#logo img
+{
+    width: 59px;
+    height: 60px;
+}
+
+header h1
+{
+    font-family: 'BallparkWeiner', serif;
+    font-size: 2.5em;
+    font-weight: normal;
+    margin: 0 0 0 10px;
+
+}
+
+
+/* Navigation */
+
+
+nav ul
+{
+    list-style-type: none;
+    display: flex;
+
+}
+
+nav li
+{
+    margin-right: 15px;
+}
+
+nav a
+{
+    font-size: 2em;
+    color: #181818;
+    padding-bottom: 3px;
+    text-decoration: none;
+}
+
+nav a:hover
+{
+    color: #760001;
+    border-bottom: 3px solid #760001;
+}
+#new_partie{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+#board {
+    margin:auto;
+    text-align: center;
+    border: 1px solid black;
+}
+td {min-width:64px;height:64px;}
+.td_light {background-color:white;}
+.td_dark {background-color:grey;}
+

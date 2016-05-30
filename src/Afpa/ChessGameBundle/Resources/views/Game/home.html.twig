@@ -5,23 +5,18 @@
 
 {% block body %}
     <h1>Welcome at the Game:home page</h1>
+    <h2 id="new_partie">
+        <a href="#">Nouvelle partie</a>
+    </h2>
 
-    <style>
-        table {text-align: center;}
-        td {min-width:64px;height:64px;}
-        .td_light {background-color:white;}
-        .td_dark {background-color:grey;}
-    </style>
+    <table id="board" >
 
-    <table width="100px" height="100px" border="1px">
-        <thead>
 
-        </thead>
         <tbody>
             {% for x in (0..board|length-1) %}
                 <tr>
                     {% for y in (0..board|length-1) %}
-                        <td class="td_{{ ((x+y) % 2 == 0) ? 'light' : 'dark' }}" background-color="#fcfcfc">
+                        <td class="td_{{ ((x+y) % 2 == 0) ? 'light' : 'dark' }}">
                             {% if board[x][y] %}
                                 <img src="{{ asset('bundles/afpachessgame/images/'~ theme ~'/' ~ board[x][y]) }}" />
                             {% endif %}
@@ -31,4 +26,5 @@
             {% endfor %}
         </tbody>
     </table>
+
 {% endblock %}
