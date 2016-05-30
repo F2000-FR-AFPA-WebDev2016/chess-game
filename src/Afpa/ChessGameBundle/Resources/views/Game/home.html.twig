@@ -1,6 +1,8 @@
 
 {% extends "AfpaChessGameBundle::layout.html.twig" %}
 
+
+
 {% block title %}AfpaChessGameBundle:Game:home{% endblock %}
 
 {% block body %}
@@ -10,13 +12,13 @@
     </h2>
 
     <table id="board" >
-
-
+        <thead>
+        </thead>
         <tbody>
             {% for x in (0..board|length-1) %}
                 <tr>
                     {% for y in (0..board|length-1) %}
-                        <td class="td_{{ ((x+y) % 2 == 0) ? 'light' : 'dark' }}">
+                        <td id="td_{{x}}_{{y}}" data-x="{{ x }}" data-y="{{ y }}"  class="td_{{ ((x+y) % 2 == 0) ? 'light' : 'dark' }}">
                             {% if board[x][y] %}
                                 <img src="{{ asset('bundles/afpachessgame/images/'~ theme ~'/' ~ board[x][y]) }}" />
                             {% endif %}
@@ -26,5 +28,4 @@
             {% endfor %}
         </tbody>
     </table>
-
 {% endblock %}
