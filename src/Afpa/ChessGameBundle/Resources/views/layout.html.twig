@@ -10,77 +10,8 @@
         <link rel="stylesheet" type="text/css" href="{{asset("bundles/afpachessgame/css/global.css")}}" />
 
         <script type="text/javascript" src="{{ asset('bundles/afpachessgame/js/jquery-1.12.3.js') }}"></script>
-        <script>
-            $(document).ready(function () {
-                selected_case = undefined;
-                $("#board td").click(function () {
-                    // test 1 : Si c'est le premier click
-                    if (selected_case === undefined) {
-                        // si oui , test 2 : y'atil une piece sur la case
-                        if ($(this).html().indexOf('img') >= 0) {
-                            selected_case_tmp = $(this);
-                            // si oui, selectionner la piece
-                            $.ajax({
-                                async: true,
-                                //context: this,
-                                type: 'POST',
-                                url: "{{ path('game_action') }}",
-                                data: {
-                                    x1: $(this).data('x'),
-                                    y1: $(this).data('y')
-                                },
-                                error: function (dataerror) {
-                                    console.log(dataerror);
-                                },
-                                success: function (data) {
-                                    console.log(data);
-                                    console.log(data.status);
-                                    if (data.status === 'success') {
-                                        selected_case = selected_case_tmp;
-                                        selected_case.addClass('selected');
-                                    }
-                                }
-                            });
-                        }
-                    } else {
-                        if ($(this).html().indexOf('img') >= 0) {
-                            selected_case_tmp = $(this);
-                            $.ajax({
-                                async: true,
-                                //context: this,
-                                type: 'POST',
-                                url: "{{ path('game_action') }}",
-                                data: {
-                                    x1: selected_case.data('x'),
-                                    y1: selected_case.data('y'),
-                                    x2: $(this).data('x'),
-                                    y2: $(this).data('y')
-                                },
-                                error: function (dataerror) {
-                                    console.log(dataerror);
-                                },
-                                success: function (data) {
-                                    console.log(data);
-                                    console.log(data.status);
-                                    if (data.status === 'success') {
-                                        selected_case.removeClass('selected');
+        <script type="text/javascript" src="{{ asset('bundles/afpachessgame/js/script.js') }}"></script>
 
-                                        if (data.x_selected && data.y_selected) {
-                                            selected_case = selected_case_tmp;
-                                            selected_case.addClass('selected');
-                                        }
-                                    }
-                                }
-                            });
-                        }
-                        // deplacement ou nouvelle selection
-
-                    }
-                    //$(this).css("background-color", "blue");
-                    console.log($(this).data('x') + ',' + $(this).data('y'));
-                });
-            });
-        </script>
     </head>
     <body>
         <header>

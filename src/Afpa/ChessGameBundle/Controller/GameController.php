@@ -17,18 +17,15 @@ class GameController extends Controller {
      * @Route("/",name="home")
      * @Template()
      */
-    public function homeAction() {
-        $oSession = new Session;
+    public function homeAction(Request $request) {
+        $oSession = $request->getSession();
         $oGame = $oSession->get('game');
         if (!$oGame) {
             $oGame = new Chessboard;
             $oSession->set('game', $oGame);
         }
 
-        return $this->render('AfpaChessGameBundle:Game:home.html.twig', array(
-                    'theme' => $this->theme,
-                    'board' => $oGame->getBoard()
-        ));
+        return $this->render('AfpaChessGameBundle:Game:home.html.twig');
     }
 
     /**
@@ -75,12 +72,26 @@ class GameController extends Controller {
     }
 
     /**
-     * @Route("/reset",name="reset_game")
+     * @Route("/game/reset",name="reset_game")
      * @Template()
      */
     public function resetGameAction(Request $request) {
         $request->getSession()->remove('game');
         return $this->redirect($this->generateUrl('home'));
+    }
+
+    /**
+     * @Route("/game/view", name="view")
+     * @Template()
+     */
+    public function gameViewAction(Request $request) {
+        $oSession = $request->getSession();
+        $oGame = $oSession->get('game');
+
+        return $this->render('AfpaChessGameBundle:Game:gameView.html.twig', array(
+                    'theme' => $this->theme,
+                    'board' => $oGame->getBoard()
+        ));
     }
 
 }

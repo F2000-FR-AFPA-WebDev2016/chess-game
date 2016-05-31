@@ -88,7 +88,7 @@ nav a:hover
     border: 1px solid black;
 }
 td {min-width:64px;height:64px;}
-td .selected {border:2px solid red;}
+td.selected {background-color: rgb(250, 234, 115);}
 .td_light {background-color:white;}
 .td_dark {background-color:grey;}
 

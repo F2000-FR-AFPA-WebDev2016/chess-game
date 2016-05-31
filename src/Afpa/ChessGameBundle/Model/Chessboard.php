@@ -227,12 +227,12 @@ class Chessboard {
 
     public function doAction($x1, $y1, $x2 = null, $y2 = null) {
         $sStatus = 'error';
-        $oPiece1 = $this->board[$x1][$y1];
 
+        $oPiece1 = $this->board[$x1][$y1];
         if ($oPiece1 instanceof Piece &&
                 $this->playerTurn == $oPiece1->getColor()) {
 
-            if ($x2 && $y2) {
+            if (!is_null($x2) && !is_null($y2)) {
                 $oPiece2 = $this->board[$x2][$y2];
 
                 // cas 1 : case vide
@@ -244,6 +244,8 @@ class Chessboard {
                         $x1 = null;
                         $y1 = null;
                         $sStatus = 'success';
+
+                        $this->nextPlayer();
                     }
                 }
                 // cas 2 : case ami => nouvelle selection OU rock
@@ -261,6 +263,7 @@ class Chessboard {
                     // TODO
                 }
             } else {
+                // cas selection
                 $sStatus = 'success';
             }
         }
