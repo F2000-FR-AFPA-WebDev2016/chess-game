@@ -74,4 +74,13 @@ class GameController extends Controller {
         }
     }
 
+    /**
+     * @Route("/reset",name="reset_game")
+     * @Template()
+     */
+    public function resetGameAction(Request $request) {
+        $request->getSession()->remove('game');
+        return $this->redirect($this->generateUrl('home'));
+    }
+
 }

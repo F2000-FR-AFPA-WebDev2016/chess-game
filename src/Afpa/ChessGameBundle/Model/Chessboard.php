@@ -227,12 +227,39 @@ class Chessboard {
 
     public function doAction($x1, $y1, $x2 = null, $y2 = null) {
         $sStatus = 'error';
-
         $oPiece1 = $this->board[$x1][$y1];
-        if ($this->playerTurn == $oPiece1->getColor()) {
+
+        if ($oPiece1 instanceof Piece &&
+                $this->playerTurn == $oPiece1->getColor()) {
+
             if ($x2 && $y2) {
                 $oPiece2 = $this->board[$x2][$y2];
-                // TODO
+
+                // cas 1 : case vide
+                if (!$oPiece2 instanceof Piece) {
+                    $bIsMovePossible = TRUE;
+                    if ($bIsMovePossible) {
+                        $this->board[$x1][$y1] = '';
+                        $this->board[$x2][$y2] = $oPiece1;
+                        $x1 = null;
+                        $y1 = null;
+                        $sStatus = 'success';
+                    }
+                }
+                // cas 2 : case ami => nouvelle selection OU rock
+                elseif ($this->playerTurn == $oPiece2->getColor()) {
+                    if ($this->isRock()) {
+                        // TODO
+                    } else {
+                        $x1 = $x2;
+                        $y1 = $y2;
+                        $sStatus = 'success';
+                    }
+                }
+                // cas 3 : case ennemie => miam?
+                else {
+                    // TODO
+                }
             } else {
                 $sStatus = 'success';
             }
@@ -241,8 +268,15 @@ class Chessboard {
 
         return array(
             'status' => $sStatus,
+            'x_selected' => $x1,
+            'y_selected' => $y1,
             'possibilities' => array(),
         );
+    }
+
+    private function isRock() {
+        // TODO
+        return FALSE;
     }
 
     private function nextPlayer() {
