@@ -7,6 +7,9 @@ abstract class Piece {
     const BLACK = 'black';
     const WHITE = 'white';
 
+    private $x;
+    private $y;
+
     /**
      * @var string
      */
@@ -17,7 +20,7 @@ abstract class Piece {
      */
     protected $position;
 
-    abstract public function getMovePossibilities();
+    abstract public function getMovePossibilities($xInit, $yInit);
 
     public function getEatPossibilities() {
         return $this->getMovePossibilities();
@@ -25,6 +28,14 @@ abstract class Piece {
 
     public function __construct($color) {
         $this->color = $color;
+    }
+
+    public function getX() {
+        return $this->x;
+    }
+
+    public function getY() {
+        return $this->y;
     }
 
     public function getColor() {
