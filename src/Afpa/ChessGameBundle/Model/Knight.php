@@ -4,7 +4,7 @@ namespace Afpa\ChessGameBundle\Model;
 
 class Knight extends Piece {
 
-    public function move() {
+    public function getMovePossibilities() {
 
     }
 

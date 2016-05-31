@@ -60,14 +60,16 @@ class GameController extends Controller {
      * @Template()
      */
     public function gameAction(Request $request) {
-        $x = $request->get('x');
-        $y = $request->get('y');
+        $x1 = $request->get('x1');
+        $y1 = $request->get('y1');
+        $x2 = $request->get('x2', null);
+        $y2 = $request->get('y2', null);
 
         $oSession = new Session;
         $oGame = $oSession->get('game', NULL);
 
         if ($oGame) {
-            $aData = $oGame->doAction($x, $y);
+            $aData = $oGame->doAction($x1, $y1, $x2, $y2);
             return new \Symfony\Component\HttpFoundation\JsonResponse($aData);
         }
     }

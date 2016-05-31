@@ -4,7 +4,7 @@ namespace Afpa\ChessGameBundle\Model;
 
 class Rook extends Piece {
 
-    public function move() {
+    public function getMovePossibilities() {
 
     }
 

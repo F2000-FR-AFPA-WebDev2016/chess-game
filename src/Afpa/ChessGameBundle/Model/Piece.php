@@ -17,7 +17,11 @@ abstract class Piece {
      */
     protected $position;
 
-    abstract public function move();
+    abstract public function getMovePossibilities();
+
+    public function getEatPossibilities() {
+        return $this->getMovePossibilities();
+    }
 
     public function __construct($color) {
         $this->color = $color;
