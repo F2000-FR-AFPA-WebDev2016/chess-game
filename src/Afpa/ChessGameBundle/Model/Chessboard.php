@@ -225,8 +225,13 @@ class Chessboard {
         }
     }
 
+    public function getMovePossibilities($oPiece, $x, $y) {
+        return $oPiece->getMovePossibilities($x, $y);
+    }
+
     public function doAction($x1, $y1, $x2 = null, $y2 = null) {
         $sStatus = 'error';
+        $aTabPossibilities = array();
 
         $oPiece1 = $this->board[$x1][$y1];
         if ($oPiece1 instanceof Piece &&
@@ -237,7 +242,8 @@ class Chessboard {
 
                 // cas 1 : case vide
                 if (!$oPiece2 instanceof Piece) {
-                    $bIsMovePossible = TRUE;
+                    $aTabPossibilities = $this->getMovePossibilities($oPiece1, $x1, $y1);
+                    $bIsMovePossible = in_array(array($x2, $y2), $aTabPossibilities);
                     if ($bIsMovePossible) {
                         $this->board[$x1][$y1] = '';
                         $this->board[$x2][$y2] = $oPiece1;
@@ -260,13 +266,14 @@ class Chessboard {
                 }
                 // cas 3 : case ennemie => miam?
                 else {
-
-                    $this->board[$x1][$y1] = '';
-                    $this->board[$x2][$y2] = $oPiece1;
-                    $x1 = null;
-                    $y1 = null;
-                    $sStatus = 'success';
-                    $this->nextPlayer();
+                    if ($bIsMovePossible) {
+                        $this->board[$x1][$y1] = '';
+                        $this->board[$x2][$y2] = $oPiece1;
+                        $x1 = null;
+                        $y1 = null;
+                        $sStatus = 'success';
+                        $this->nextPlayer();
+                    }
 
                     // TODO
                 }
@@ -281,7 +288,7 @@ class Chessboard {
             'status' => $sStatus,
             'x_selected' => $x1,
             'y_selected' => $y1,
-            'possibilities' => array(),
+            'possibilities' => $aTabPossibilities,
         );
     }
 
