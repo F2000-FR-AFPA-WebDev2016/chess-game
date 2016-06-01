@@ -6,23 +6,10 @@ class King extends Piece {
 
     public function getMovePossibilities($xInit, $yInit) {
         $aTab = array();
-
-        $x = $xInit + 1;
-        $y = $yInit;
-        $aTab[] = array($x, $y);
-
-        $x = $xInit;
-        $y = $yInit + 1;
-        $aTab[] = array($x, $y);
-
-        $x = $xInit - 1;
-        $y = $yInit;
-        $aTab[] = array($x, $y);
-
-        $x = $xInit;
-        $y = $yInit - 1;
-        $aTab[] = array($x, $y);
-
+        $aTab[] = array($xInit + 1, $yInit);
+        $aTab[] = array($xInit, $yInit + 1);
+        $aTab[] = array($xInit - 1, $yInit);
+        $aTab[] = array($xInit, $yInit - 1);
         return $aTab;
     }
 

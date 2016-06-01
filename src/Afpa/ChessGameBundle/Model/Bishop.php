@@ -6,28 +6,12 @@ class Bishop extends Piece {
 
     public function getMovePossibilities($xInit, $yInit) {
         $aTab = array();
-
         for ($i = 0; $i < 8; $i++) {
-            $x = $xInit + $i;
-            $y = $yInit + $i;
-            $aTab[] = array($x, $y);
+            $aTab[] = array($xInit + $i, $yInit + $i);
+            $aTab[] = array($xInit - $i, $yInit + $i);
+            $aTab[] = array($xInit - $i, $yInit - $i);
+            $aTab[] = array($xInit + $i, $yInit - $i);
         }
-        for ($i = 0; $i < 8; $i++) {
-            $x = $xInit - $i;
-            $y = $yInit + $i;
-            $aTab[] = array($x, $y);
-        }
-        for ($i = 0; $i < 8; $i++) {
-            $x = $xInit - $i;
-            $y = $yInit - $i;
-            $aTab[] = array($x, $y);
-        }
-        for ($i = 0; $i < 8; $i++) {
-            $x = $xInit + $i;
-            $y = $yInit - $i;
-            $aTab[] = array($x, $y);
-        }
-
         return $aTab;
     }
 
