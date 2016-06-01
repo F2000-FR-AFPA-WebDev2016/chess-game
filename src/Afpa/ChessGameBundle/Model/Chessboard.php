@@ -260,6 +260,14 @@ class Chessboard {
                 }
                 // cas 3 : case ennemie => miam?
                 else {
+
+                    $this->board[$x1][$y1] = '';
+                    $this->board[$x2][$y2] = $oPiece1;
+                    $x1 = null;
+                    $y1 = null;
+                    $sStatus = 'success';
+                    $this->nextPlayer();
+
                     // TODO
                 }
             } else {
