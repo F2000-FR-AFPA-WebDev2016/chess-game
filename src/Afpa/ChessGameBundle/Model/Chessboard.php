@@ -225,6 +225,10 @@ class Chessboard {
         }
     }
 
+    public function getEatPossibilities($oPiece, $x, $y) {
+        return $oPiece->getEatPossibilities($x, $y);
+    }
+
     public function getMovePossibilities($oPiece, $x, $y) {
         return $oPiece->getMovePossibilities($x, $y);
     }
@@ -243,14 +247,13 @@ class Chessboard {
                 // cas 1 : case vide
                 if (!$oPiece2 instanceof Piece) {
                     $aTabPossibilities = $this->getMovePossibilities($oPiece1, $x1, $y1);
-                    $bIsMovePossible = in_array(array($x2, $y2), $aTabPossibilities);
-                    if ($bIsMovePossible) {
+                    if (in_array(array($x2, $y2), $aTabPossibilities)) {
                         $this->board[$x1][$y1] = '';
                         $this->board[$x2][$y2] = $oPiece1;
                         $x1 = null;
                         $y1 = null;
-                        $sStatus = 'success';
 
+                        $sStatus = 'success';
                         $this->nextPlayer();
                     }
                 }
@@ -266,11 +269,13 @@ class Chessboard {
                 }
                 // cas 3 : case ennemie => miam?
                 else {
-                    if ($bIsMovePossible) {
+                    $aTabPossibilities = $this->getEatPossibilities($oPiece1, $x1, $y1);
+                    if (in_array(array($x2, $y2), $aTabPossibilities)) {
                         $this->board[$x1][$y1] = '';
                         $this->board[$x2][$y2] = $oPiece1;
                         $x1 = null;
                         $y1 = null;
+
                         $sStatus = 'success';
                         $this->nextPlayer();
                     }

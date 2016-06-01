@@ -24,8 +24,17 @@ class Pawn extends Piece {
         return $aTab;
     }
 
-    public function getEatPossibilities() {
+    public function getEatPossibilities($xInit, $yInit) {
         $aTab = array();
+        if ($this->getColor() == Piece::BLACK) {
+            $sign = '1';
+        } else {
+            $sign = '-1';
+        }
+
+        $aTab[] = array($xInit + (1 * $sign), $yInit + 1);
+        $aTab[] = array($xInit + (1 * $sign), $yInit - 1);
+
         return $aTab;
     }
 
