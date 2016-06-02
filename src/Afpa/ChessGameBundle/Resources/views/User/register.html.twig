@@ -3,5 +3,12 @@
 {% block title %}AfpaChessGameBundle:User:register{% endblock %}
 
 {% block body %}
-<h1>Welcome at the User:register page</h1>
+    <h1>Welcome at the User:register page</h1>
+    {{form_errors(form)}}
+    <form method="POST">
+        {{form_widget(form)}}
+        <input type="submit">
+    </form>
+
 {% endblock %}
+
