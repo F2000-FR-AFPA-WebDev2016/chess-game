@@ -90,7 +90,8 @@ class GameController extends Controller {
 
         return $this->render('AfpaChessGameBundle:Game:gameView.html.twig', array(
                     'theme' => $this->theme,
-                    'board' => $oGame->getBoard()
+                    'board' => $oGame->getBoard(),
+                    'player' => $oGame->getPlayer(),
         ));
     }
 

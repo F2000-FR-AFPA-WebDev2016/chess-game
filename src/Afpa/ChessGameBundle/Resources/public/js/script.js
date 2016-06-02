@@ -41,6 +41,7 @@ $(document).ready(function () {
                         if (data.status === 'success') {
                             selected_case = selected_case_tmp;
                             selected_case.addClass('selected');
+                            $(".selected").draggable();
                         }
                     }
                 });

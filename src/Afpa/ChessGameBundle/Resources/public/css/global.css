@@ -69,11 +69,7 @@ nav a
     text-decoration: none;
 }
 
-nav a:hover
-{
-    color: #760001;
-    border-bottom: 3px solid #760001;
-}
+
 #new_partie{
     display: flex;
     justify-content: center;
@@ -85,10 +81,29 @@ nav a:hover
 #board {
     margin:auto;
     text-align: center;
-    border: 1px solid black;
+
 }
-td {min-width:64px;height:64px;}
-td.selected {background-color: rgb(250, 234, 115);}
-.td_light {background-color:white;}
-.td_dark {background-color:grey;}
+td {min-width:64px;height:64px;
+
+}
+td.selected {background-color: rgb(250, 234, 115);
+}
+.td_light {background-color:rgb(223, 176, 98);
+}
+.td_dark {background-color:rgb(134, 89, 60);
+}
+
+
+table#board{
+    border: 20px;
+    border-style: inset;
+    border-color: rgb(191, 136, 106);
+
+
+}
+
+
+
+
+
 

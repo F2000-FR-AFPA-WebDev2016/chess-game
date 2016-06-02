@@ -238,6 +238,7 @@ class Chessboard {
         $aTabPossibilities = array();
 
         $oPiece1 = $this->board[$x1][$y1];
+        $aTabPossibilities = $this->getMovePossibilities($oPiece1, $x1, $y1);
         if ($oPiece1 instanceof Piece &&
                 $this->playerTurn == $oPiece1->getColor()) {
 
@@ -246,7 +247,7 @@ class Chessboard {
 
                 // cas 1 : case vide
                 if (!$oPiece2 instanceof Piece) {
-                    $aTabPossibilities = $this->getMovePossibilities($oPiece1, $x1, $y1);
+
                     if (in_array(array($x2, $y2), $aTabPossibilities)) {
                         $this->board[$x1][$y1] = '';
                         $this->board[$x2][$y2] = $oPiece1;
@@ -307,6 +308,14 @@ class Chessboard {
             $this->playerTurn = Piece::BLACK;
         } else {
             $this->playerTurn = Piece::WHITE;
+        }
+    }
+
+    public function getPlayer() {
+        if ($this->playerTurn == Piece::WHITE) {
+            return 'Joueur: Blanc';
+        } else {
+            return 'Joueur: Noir';
         }
     }
 
