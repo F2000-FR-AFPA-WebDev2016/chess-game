@@ -38,9 +38,31 @@ $(document).ready(function () {
                     success: function (data) {
                         console.log(data);
                         console.log(data.status);
+                        console.log(data.possibilities);
                         if (data.status === 'success') {
-                            selected_case = selected_case_tmp;
-                            selected_case.addClass('selected');
+                            if (selected_case !== undefined) {
+                                selected_case.removeClass('selected');
+                            }
+
+                            if (data.x_selected && data.y_selected) {
+                                selected_case = selected_case_tmp;
+                                selected_case.addClass('selected');
+
+                                //affichage possibilites 1ere selection :
+                                $('#game td').removeClass('possible');
+                                console.log('Possibilities : ');
+                                for (i = 0; i < data.possibilities.length; i++) {
+                                    //$('td:td_' + data.possibilities['x'] + '_' + data.possibilities['y']).addClass('selected');
+                                    x1 = data.possibilities[i][0];
+                                    y1 = data.possibilities[i][1];
+                                    $('#td_' + x1 + '_' + y1).addClass('possible');
+                                    console.log($('#td_' + x1 + '_' + y1));
+                                }
+                            } else {
+                                // action effectuee
+                                refreshView();
+                                selected_case = undefined;
+                            }
                         }
                     }
                 });
@@ -66,12 +88,25 @@ $(document).ready(function () {
                     console.log(data);
                     console.log(data.status);
                     if (data.status === 'success') {
-                        selected_case.removeClass('selected');
+                        if (selected_case !== undefined) {
+                            selected_case.removeClass('selected');
+                        }
 
                         if (data.x_selected && data.y_selected) {
                             // nouvelle sélection
                             selected_case = selected_case_tmp;
                             selected_case.addClass('selected');
+
+                            //affichage possibilites 2ere selection :
+                            $('#game td').removeClass('possible');
+                            console.log('Possibilities : ');
+                            for (i = 0; i < data.possibilities.length; i++) {
+                                //$('td:td_' + data.possibilities['x'] + '_' + data.possibilities['y']).addClass('selected');
+                                x1 = data.possibilities[i][0];
+                                y1 = data.possibilities[i][1];
+                                $('#td_' + x1 + '_' + y1).addClass('possible');
+                                console.log($('#td_' + x1 + '_' + y1));
+                            }
                         } else {
                             // action effectuee
                             refreshView();

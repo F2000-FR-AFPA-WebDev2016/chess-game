@@ -10,6 +10,11 @@ class King extends Piece {
         $aTab[] = array($xInit, $yInit + 1);
         $aTab[] = array($xInit - 1, $yInit);
         $aTab[] = array($xInit, $yInit - 1);
+
+        $aTab[] = array($xInit - 1, $yInit - 1);
+        $aTab[] = array($xInit - 1, $yInit + 1);
+        $aTab[] = array($xInit + 1, $yInit - 1);
+        $aTab[] = array($xInit + 1, $yInit + 1);
         return $aTab;
     }
 

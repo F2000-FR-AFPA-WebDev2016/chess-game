@@ -89,6 +89,7 @@ nav a:hover
 }
 td {min-width:64px;height:64px;}
 td.selected {background-color: rgb(250, 234, 115);}
+td.possible {background-color: rgb(102, 255, 102);}
 .td_light {background-color:white;}
 .td_dark {background-color:grey;}
 

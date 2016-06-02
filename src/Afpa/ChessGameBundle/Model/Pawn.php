@@ -24,7 +24,7 @@ class Pawn extends Piece {
         return $aTab;
     }
 
-    public function getEatPossibilities() {
+    public function getEatPossibilities($xInit, $yInit) {
         $aTab = array();
         return $aTab;
     }
