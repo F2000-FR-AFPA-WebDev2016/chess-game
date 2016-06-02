@@ -248,15 +248,13 @@ class Chessboard {
 
                 // cas 1 : case vide
                 if (!$oPiece2 instanceof Piece) {
-                    //$aTabPossibilities = $this->getMovePossibilities($oPiece1, $x1, $y1);
-                    $bIsMovePossible = in_array(array($x2, $y2), $aTabPossibilities);
-                    if ($bIsMovePossible) {
+                    if (in_array(array($x2, $y2), $aTabPossibilities)) {
                         $this->board[$x1][$y1] = '';
                         $this->board[$x2][$y2] = $oPiece1;
                         $x1 = null;
                         $y1 = null;
-                        $sStatus = 'success';
 
+                        $sStatus = 'success';
                         $this->nextPlayer();
                     }
                 }
@@ -276,12 +274,12 @@ class Chessboard {
                 }
                 // cas 3 : case ennemie => miam?
                 else {
-                    $bIsMovePossible = in_array(array($x2, $y2), $aTabPossEat);
-                    if ($bIsMovePossible) {
+                    if (in_array(array($x2, $y2), $aTabPossEat)) {
                         $this->board[$x1][$y1] = '';
                         $this->board[$x2][$y2] = $oPiece1;
                         $x1 = null;
                         $y1 = null;
+
                         $sStatus = 'success';
                         $this->nextPlayer();
                     }
@@ -300,6 +298,7 @@ class Chessboard {
             'x_selected' => $x1,
             'y_selected' => $y1,
             'possibilities' => $aTabPossibilities,
+            'pos_eat' => $aTabPossEat,
         );
     }
 
@@ -313,6 +312,14 @@ class Chessboard {
             $this->playerTurn = Piece::BLACK;
         } else {
             $this->playerTurn = Piece::WHITE;
+        }
+    }
+
+    public function getPlayer() {
+        if ($this->playerTurn == Piece::WHITE) {
+            return 'Joueur: Blanc';
+        } else {
+            return 'Joueur: Noir';
         }
     }
 
