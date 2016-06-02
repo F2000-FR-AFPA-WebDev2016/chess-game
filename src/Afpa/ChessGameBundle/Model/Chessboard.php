@@ -225,20 +225,21 @@ class Chessboard {
         }
     }
 
-    public function getEatPossibilities($oPiece, $x, $y) {
-        return $oPiece->getEatPossibilities($x, $y);
-    }
-
     public function getMovePossibilities($oPiece, $x, $y) {
         return $oPiece->getMovePossibilities($x, $y);
     }
 
+    public function getEatPossibilities($oPiece, $x, $y) {
+        return $oPiece->getEatPossibilities($x, $y);
+    }
+
     public function doAction($x1, $y1, $x2 = null, $y2 = null) {
         $sStatus = 'error';
-        $aTabPossibilities = array();
 
         $oPiece1 = $this->board[$x1][$y1];
         $aTabPossibilities = $this->getMovePossibilities($oPiece1, $x1, $y1);
+        $aTabPossEat = $this->getEatPossibilities($oPiece1, $x1, $y1);
+
         if ($oPiece1 instanceof Piece &&
                 $this->playerTurn == $oPiece1->getColor()) {
 
@@ -247,7 +248,6 @@ class Chessboard {
 
                 // cas 1 : case vide
                 if (!$oPiece2 instanceof Piece) {
-
                     if (in_array(array($x2, $y2), $aTabPossibilities)) {
                         $this->board[$x1][$y1] = '';
                         $this->board[$x2][$y2] = $oPiece1;
@@ -265,13 +265,16 @@ class Chessboard {
                     } else {
                         $x1 = $x2;
                         $y1 = $y2;
+
+                        // recalcul des possibilités pour la nouvelle sélection
+                        $aTabPossibilities = $this->getMovePossibilities($oPiece2, $x2, $y2);
+                        $aTabPossEat = $this->getEatPossibilities($oPiece2, $x2, $y2);
                         $sStatus = 'success';
                     }
                 }
                 // cas 3 : case ennemie => miam?
                 else {
-                    $aTabPossibilities = $this->getEatPossibilities($oPiece1, $x1, $y1);
-                    if (in_array(array($x2, $y2), $aTabPossibilities)) {
+                    if (in_array(array($x2, $y2), $aTabPossEat)) {
                         $this->board[$x1][$y1] = '';
                         $this->board[$x2][$y2] = $oPiece1;
                         $x1 = null;
@@ -295,6 +298,7 @@ class Chessboard {
             'x_selected' => $x1,
             'y_selected' => $y1,
             'possibilities' => $aTabPossibilities,
+            'pos_eat' => $aTabPossEat,
         );
     }
 

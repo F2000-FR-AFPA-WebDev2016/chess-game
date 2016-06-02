@@ -22,8 +22,8 @@ abstract class Piece {
 
     abstract public function getMovePossibilities($xInit, $yInit);
 
-    public function getEatPossibilities($xInit, $yInit) {
-        return $this->getMovePossibilities($xInit, $yInit);
+    public function getEatPossibilities($xInit1, $yInit1) {
+        return $this->getMovePossibilities($xInit1, $yInit1);
     }
 
     public function __construct($color) {
