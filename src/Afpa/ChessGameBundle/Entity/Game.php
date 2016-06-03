@@ -36,6 +36,12 @@ class Game {
     private $savedDate;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="games")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
      * Get id
      *
      * @return integer
@@ -65,27 +71,46 @@ class Game {
         return $this->saveGame;
     }
 
-
     /**
      * Set savedDate
      *
      * @param \DateTime $savedDate
      * @return Game
      */
-    public function setSavedDate($savedDate)
-    {
+    public function setSavedDate($savedDate) {
         $this->savedDate = $savedDate;
-    
+
         return $this;
     }
 
     /**
      * Get savedDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
-    public function getSavedDate()
-    {
+    public function getSavedDate() {
         return $this->savedDate;
     }
+
+    /**
+     * Set user
+     *
+     * @param \Afpa\ChessGameBundle\Entity\User $user
+     * @return Game
+     */
+    public function setUser(\Afpa\ChessGameBundle\Entity\User $user = null) {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Afpa\ChessGameBundle\Entity\User
+     */
+    public function getUser() {
+        return $this->user;
+    }
+
 }

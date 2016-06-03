@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class User
-{
+class User {
+
     /**
      * @var integer
      *
@@ -36,20 +36,23 @@ class User
     private $email;
 
     /**
+     * @ORM\OneToMany(targetEntity="Game", mappedBy="user")
+     */
+    private $games;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -59,20 +62,18 @@ class User
      * @param string $nickname
      * @return User
      */
-    public function setNickname($nickname)
-    {
+    public function setNickname($nickname) {
         $this->nickname = $nickname;
-    
+
         return $this;
     }
 
     /**
      * Get nickname
      *
-     * @return string 
+     * @return string
      */
-    public function getNickname()
-    {
+    public function getNickname() {
         return $this->nickname;
     }
 
@@ -82,20 +83,18 @@ class User
      * @param string $email
      * @return User
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
-    
+
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
 
@@ -105,20 +104,63 @@ class User
      * @param string $password
      * @return User
      */
-    public function setPassword($password)
-    {
+    public function setPassword($password) {
         $this->password = $password;
-    
+
         return $this;
     }
 
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
-    public function getPassword()
-    {
+    public function getPassword() {
         return $this->password;
+    }
+
+    public function verifAuth($password) {
+        return ($this->password == $password);
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->games = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add games
+     *
+     * @param \Afpa\ChessGameBundle\Entity\Game $games
+     * @return User
+     */
+    public function addGame(\Afpa\ChessGameBundle\Entity\Game $games)
+    {
+        $this->games[] = $games;
+    
+        return $this;
+    }
+
+    /**
+     * Remove games
+     *
+     * @param \Afpa\ChessGameBundle\Entity\Game $games
+     */
+    public function removeGame(\Afpa\ChessGameBundle\Entity\Game $games)
+    {
+        $this->games->removeElement($games);
+    }
+
+    /**
+     * Get games
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGames()
+    {
+        return $this->games;
     }
 }
