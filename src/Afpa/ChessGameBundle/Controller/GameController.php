@@ -72,6 +72,18 @@ class GameController extends Controller {
     }
 
     /**
+     * @Route("/game/test/{x}/{y}", name="game_test")
+     * @Template()
+     */
+    public function game2Action($x, $y) {
+        $oSession = new Session;
+        $oGame = $oSession->get('game', NULL);
+
+        $aData = $oGame->doAction($x, $y);
+        return new \Symfony\Component\HttpFoundation\JsonResponse($aData);
+    }
+
+    /**
      * @Route("/game/reset",name="reset_game")
      * @Template()
      */

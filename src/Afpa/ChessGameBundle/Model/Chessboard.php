@@ -226,7 +226,36 @@ class Chessboard {
     }
 
     public function getMovePossibilities($oPiece, $x, $y) {
-        return $oPiece->getMovePossibilities($x, $y);
+        $aValid = array();
+
+        $aMoves = $oPiece->getMovePossibilities($x, $y);
+        foreach ($aMoves as $aPos) {
+            if (is_array($aPos[0])) {
+                foreach ($aPos as $aSubPos) {
+                    if (!$this->board[$aSubPos[0]][$aSubPos[1]] instanceof Piece) {
+                        $aValid[] = $aSubPos;
+                    } else {
+                        //si case invalide arret de l evaluation des autres cas
+                        break;
+                    }
+                }
+            } else {
+                if (self::isCoordsValid($aPos[0], $aPos[1]) &&
+                        !$this->board[$aPos[0]][$aPos[1]] instanceof Piece) {
+                    $aValid[] = $aPos;
+                }
+            }
+        }
+
+        return $aValid;
+    }
+
+    public static function isCoordsValid($x, $y) {
+        if ($x >= 0 && $x <= 7 && $y >= 0 && $y <= 7) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 
     public function getEatPossibilities($oPiece, $x, $y) {

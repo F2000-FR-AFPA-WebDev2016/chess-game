@@ -91,6 +91,7 @@ table#board{
     border: 20px;
     border-style: inset;
     border-color: rgb(191, 136, 106);
+    background-color: rgb(134, 89, 60)
 }
 
 

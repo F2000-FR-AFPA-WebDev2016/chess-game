@@ -5,14 +5,31 @@ namespace Afpa\ChessGameBundle\Model;
 class Rook extends Piece {
 
     public function getMovePossibilities($xInit, $yInit) {
-        $aTab = array();
-        for ($i = 0; $i < 8; $i++) {
-            $aTab[] = array($xInit + $i, $yInit);
-            $aTab[] = array($xInit - $i, $yInit);
-            $aTab[] = array($xInit, $yInit + $i);
-            $aTab[] = array($xInit, $yInit - $i);
+        $aMoves = array();
+
+        $aDir = array(array(1, 0), array(-1, 0), array(0, 1), array(0, -1));
+        $i = 0;
+        foreach ($aDir as $aAxe) {
+            $x = $xInit;
+            $y = $yInit;
+
+            do {
+                $x += $aAxe[0];
+                $y += $aAxe[1];
+
+                $bOk = Chessboard::isCoordsValid($x, $y);
+                if ($bOk) {
+                    if (!isset($aMoves[$i])) {
+                        $aMoves[$i] = array();
+                    }
+                    $aMoves[$i][] = array($x, $y);
+                }
+            } while ($bOk);
+
+            $i++;
         }
-        return $aTab;
+
+        return $aMoves;
     }
 
 }
