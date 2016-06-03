@@ -67,7 +67,6 @@ class Chessboard {
      */
     public function setCases($cases) {
         $this->cases = $cases;
-
         return $this;
     }
 
@@ -88,7 +87,6 @@ class Chessboard {
      */
     public function setBoard($board) {
         $this->board = $board;
-
         return $this;
     }
 
@@ -109,7 +107,6 @@ class Chessboard {
      */
     public function setWhitePieces($whitePieces) {
         $this->whitePieces = $whitePieces;
-
         return $this;
     }
 
@@ -130,7 +127,6 @@ class Chessboard {
      */
     public function setBlackPieces($blackPieces) {
         $this->blackPieces = $blackPieces;
-
         return $this;
     }
 
@@ -151,7 +147,6 @@ class Chessboard {
      */
     public function setIsInCheck($isInCheck) {
         $this->isInCheck = $isInCheck;
-
         return $this;
     }
 
@@ -172,7 +167,6 @@ class Chessboard {
      */
     public function setIsCheckmate($isCheckmate) {
         $this->isCheckmate = $isCheckmate;
-
         return $this;
     }
 
@@ -194,7 +188,6 @@ class Chessboard {
                 $this->board[$i][$j] = "";
             }
         }
-
         $this->board[0][0] = $this->board[0][7] = new Rook(Piece::BLACK);
         $this->board[0][1] = $this->board[0][6] = new Knight(Piece::BLACK);
         $this->board[0][2] = $this->board[0][5] = new Bishop(Piece::BLACK);
@@ -203,8 +196,6 @@ class Chessboard {
         for ($i = 0; $i <= self::MAX_SIZE; $i++) {
             $this->board[1][$i] = new Pawn(Piece::BLACK);
         }
-
-
         $this->board[7][0] = $this->board[7][7] = new Rook(Piece::WHITE);
         $this->board[7][1] = $this->board[7][6] = new Knight(Piece::WHITE);
         $this->board[7][2] = $this->board[7][5] = new Bishop(Piece::WHITE);
@@ -213,7 +204,6 @@ class Chessboard {
         for ($i = 0; $i <= self::MAX_SIZE; $i++) {
             $this->board[6][$i] = new Pawn(Piece::WHITE);
         }
-
         $this->playerTurn = Piece::WHITE;
     }
 
@@ -227,7 +217,6 @@ class Chessboard {
 
     public function getMovePossibilities($oPiece, $x, $y) {
         $aValid = array();
-
         $aMoves = $oPiece->getMovePossibilities($x, $y);
         foreach ($aMoves as $aPos) {
             if (is_array($aPos[0])) {
@@ -246,7 +235,6 @@ class Chessboard {
                 }
             }
         }
-
         return $aValid;
     }
 
@@ -259,22 +247,37 @@ class Chessboard {
     }
 
     public function getEatPossibilities($oPiece, $x, $y) {
-        return $oPiece->getEatPossibilities($x, $y);
+        $aValid = array();
+
+        $aMoves = $oPiece->getEatPossibilities($x, $y);
+        foreach ($aMoves as $aPos) {
+            if (is_array($aPos[0])) {
+                foreach ($aPos as $aSubPos) {
+                    if ($this->board[$aSubPos[0]][$aSubPos[1]] instanceof Piece) {
+                        $aValid[] = $aSubPos;
+                        break;
+                    }
+                }
+            } else {
+                if (self::isCoordsValid($aPos[0], $aPos[1]) &&
+                        $this->board[$aPos[0]][$aPos[1]] instanceof Piece) {
+                    $aValid[] = $aPos;
+                }
+            }
+        }
+
+        return $aValid;
     }
 
     public function doAction($x1, $y1, $x2 = null, $y2 = null) {
         $sStatus = 'error';
-
         $oPiece1 = $this->board[$x1][$y1];
         $aTabPossibilities = $this->getMovePossibilities($oPiece1, $x1, $y1);
         $aTabPossEat = $this->getEatPossibilities($oPiece1, $x1, $y1);
-
         if ($oPiece1 instanceof Piece &&
                 $this->playerTurn == $oPiece1->getColor()) {
-
             if (!is_null($x2) && !is_null($y2)) {
                 $oPiece2 = $this->board[$x2][$y2];
-
                 // cas 1 : case vide
                 if (!$oPiece2 instanceof Piece) {
                     if (in_array(array($x2, $y2), $aTabPossibilities)) {
@@ -282,7 +285,6 @@ class Chessboard {
                         $this->board[$x2][$y2] = $oPiece1;
                         $x1 = null;
                         $y1 = null;
-
                         $sStatus = 'success';
                         $this->nextPlayer();
                     }
@@ -294,7 +296,6 @@ class Chessboard {
                     } else {
                         $x1 = $x2;
                         $y1 = $y2;
-
                         // recalcul des possibilités pour la nouvelle sélection
                         $aTabPossibilities = $this->getMovePossibilities($oPiece2, $x2, $y2);
                         $aTabPossEat = $this->getEatPossibilities($oPiece2, $x2, $y2);
@@ -308,11 +309,9 @@ class Chessboard {
                         $this->board[$x2][$y2] = $oPiece1;
                         $x1 = null;
                         $y1 = null;
-
                         $sStatus = 'success';
                         $this->nextPlayer();
                     }
-
                     // TODO
                 }
             } else {
@@ -320,8 +319,6 @@ class Chessboard {
                 $sStatus = 'success';
             }
         }
-
-
         return array(
             'status' => $sStatus,
             'x_selected' => $x1,
