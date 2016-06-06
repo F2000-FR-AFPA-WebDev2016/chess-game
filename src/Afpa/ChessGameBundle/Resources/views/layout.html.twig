@@ -26,10 +26,10 @@
                 {% if app.request.session.get('oUser') is not null %}
                     Connecté sous {{ app.request.session.get('oUser').nickname }}
                     <br />
-                    <a href="{{'logout'}}"> Logout</a>
+                    <a href="{{path('logout')}}"> Logout</a>
                 {% else %}
-                    <a href="{{'register'}}"> Register</a><br />
-                    <a href="{{'login'}}"> Login</a><br />
+                    <a href="{{path('register')}}"> Register</a><br />
+                    <a href="{{path('login')}}"> Login</a><br />
                 {% endif %}
             </div>
 
@@ -38,7 +38,7 @@
                     <li><a href="{{ path("home")}}">Accueil</a></li>
                     <li><a href="{{ path("credits")}}">Credits</a></li>
                     <li><a href="{{ path("rules")}}">Rules</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="{{ path("plays")}}">Game Plays</a></li>
                 </ul>
             </nav>
 

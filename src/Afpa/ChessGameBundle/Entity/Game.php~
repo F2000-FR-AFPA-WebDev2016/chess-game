@@ -22,24 +22,30 @@ class Game {
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="saveGame", type="text")
-     */
-    private $saveGame;
-
-    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="saved_date", type="datetime")
+     * @ORM\Column(name="created_date", type="datetime")
      */
-    private $savedDate;
+    private $createdDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="games")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @var string
+     *
+     * @ORM\Column(name="data", type="text")
      */
-    private $user;
+    private $data;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="is_end", type="integer")
+     */
+    private $isEnd;
+
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="game")
+     */
+    private $users;
 
     /**
      * Get id
@@ -111,6 +117,106 @@ class Game {
      */
     public function getUser() {
         return $this->user;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set createdDate
+     *
+     * @param \DateTime $createdDate
+     * @return Game
+     */
+    public function setCreatedDate($createdDate) {
+        $this->createdDate = $createdDate;
+
+        return $this;
+    }
+
+    /**
+     * Get createdDate
+     *
+     * @return \DateTime
+     */
+    public function getCreatedDate() {
+        return $this->createdDate;
+    }
+
+    /**
+     * Set data
+     *
+     * @param string $data
+     * @return Game
+     */
+    public function setData($data) {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Get data
+     *
+     * @return string
+     */
+    public function getData() {
+        return $this->data;
+    }
+
+    /**
+     * Set isEnd
+     *
+     * @param \Integer $isEnd
+     * @return Game
+     */
+    public function setIsEnd(\int $isEnd) {
+        $this->isEnd = $isEnd;
+
+        return $this;
+    }
+
+    /**
+     * Get isEnd
+     *
+     * @return \Integer
+     */
+    public function getIsEnd() {
+        return $this->isEnd;
+    }
+
+    /**
+     * Add users
+     *
+     * @param \Afpa\ChessGameBundle\Entity\User $users
+     * @return Game
+     */
+    public function addUser(\Afpa\ChessGameBundle\Entity\User $users) {
+        $this->users[] = $users;
+
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \Afpa\ChessGameBundle\Entity\User $users
+     */
+    public function removeUser(\Afpa\ChessGameBundle\Entity\User $users) {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers() {
+        return $this->users;
     }
 
 }

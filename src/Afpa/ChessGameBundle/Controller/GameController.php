@@ -29,6 +29,18 @@ class GameController extends Controller {
     }
 
     /**
+     * @Route("/plays", name="plays")
+     * @Template()
+     */
+    public function playsAction() {
+
+        $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
+        $oGames = $repo->findAll();
+
+        return array('games' => $oGames);
+    }
+
+    /**
      * @Route("/credits", name="credits")
      * @Template()
      */

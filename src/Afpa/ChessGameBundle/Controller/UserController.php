@@ -11,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class UserController extends Controller {
 
     /**
-     * @Route("/login")
+     * @Route("/login",name="login")
      * @Template()
      */
     public function loginAction(Request $request) {
@@ -38,7 +38,7 @@ class UserController extends Controller {
     }
 
     /**
-     * @Route("/register")
+     * @Route("/register",name="register")
      * @Template()
      */
     public function registerAction(Request $request) {
@@ -60,7 +60,7 @@ class UserController extends Controller {
     }
 
     /**
-     * @Route("/logout")
+     * @Route("/logout",name="logout")
      * @Template()
      */
     public function logoutAction(Request $request) {

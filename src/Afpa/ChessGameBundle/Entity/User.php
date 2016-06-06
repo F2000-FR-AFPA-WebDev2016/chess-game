@@ -19,33 +19,34 @@ class User {
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="nickname", type="string", length=255)
      */
-    private $nickname;
+    protected $nickname;
 
     /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
      */
-    private $email;
+    protected $email;
 
     /**
-     * @ORM\OneToMany(targetEntity="Game", mappedBy="user")
+     * @ORM\ManyToOne(targetEntity="Game", inversedBy="user")
+     * @ORM\JoinColumn(name="game_id", referencedColumnName="id")
      */
-    private $games;
+    protected $game;
 
     /**
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
      */
-    private $password;
+    protected $password;
 
     /**
      * Get id
@@ -126,21 +127,19 @@ class User {
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->games = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add games
      *
      * @param \Afpa\ChessGameBundle\Entity\Game $games
      * @return User
      */
-    public function addGame(\Afpa\ChessGameBundle\Entity\Game $games)
-    {
+    public function addGame(\Afpa\ChessGameBundle\Entity\Game $games) {
         $this->games[] = $games;
-    
+
         return $this;
     }
 
@@ -149,18 +148,38 @@ class User {
      *
      * @param \Afpa\ChessGameBundle\Entity\Game $games
      */
-    public function removeGame(\Afpa\ChessGameBundle\Entity\Game $games)
-    {
+    public function removeGame(\Afpa\ChessGameBundle\Entity\Game $games) {
         $this->games->removeElement($games);
     }
 
     /**
      * Get games
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getGames()
-    {
+    public function getGames() {
         return $this->games;
     }
+
+    /**
+     * Set game
+     *
+     * @param \Afpa\ChessGameBundle\Entity\Game $game
+     * @return User
+     */
+    public function setGame(\Afpa\ChessGameBundle\Entity\Game $game = null) {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return \Afpa\ChessGameBundle\Entity\Game
+     */
+    public function getGame() {
+        return $this->game;
+    }
+
 }
