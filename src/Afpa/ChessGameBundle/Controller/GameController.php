@@ -33,7 +33,11 @@ class GameController extends Controller {
      * @Template()
      */
     public function playsAction() {
-        return $this->render('AfpaChessGameBundle:Game:plays.html.twig');
+
+        $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
+        $oGames = $repo->findAll();
+
+        return array('games' => $oGames);
     }
 
     /**
