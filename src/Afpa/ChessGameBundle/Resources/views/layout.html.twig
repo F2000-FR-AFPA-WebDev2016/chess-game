@@ -26,10 +26,10 @@
                 {% if app.request.session.get('oUser') is not null %}
                     Connecté sous {{ app.request.session.get('oUser').nickname }}
                     <br />
-                    <a href="{{'logout'}}"> Logout</a>
+                    <a href="{{path('logout')}}"> Logout</a>
                 {% else %}
-                    <a href="{{'register'}}"> Register</a><br />
-                    <a href="{{'login'}}"> Login</a><br />
+                    <a href="{{path('register')}}"> Register</a><br />
+                    <a href="{{path('login')}}"> Login</a><br />
                 {% endif %}
             </div>
 

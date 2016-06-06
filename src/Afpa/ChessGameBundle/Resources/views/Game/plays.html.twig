@@ -17,15 +17,21 @@
             <tr>
                 <td>{{ game.id }}</td>
                 <td>{{ game.createdDate | date('d|m|Y')}}</td>
-                <td>{{ game.getUsers|length }}</td>
-                <td> {% if game.getUsers|length < 2 %}
-                    <a href = "{{path('home')}}">Join</a> <br/>
-                {%else%}
-                    <a href = "{{path('home')}}">Watch</a> </td>
-            <br/>
-            {%endif%} </td>
-        </tr>
+                <td>{{ game.getUsers|length }} / 2</td>
+                <td>
+                    {% if app.request.session.get('oUser') is not null %}
+
+                        {% if (game.getUsers|length < 2) %}
+                            <a href = "{{path('home')}}">Join</a> <br/><a href = "{{path('home')}}">Watch</a>
+                        {%else%}
+                            <a href = "{{path('home')}}">Watch</a> </td>
+                        {%endif%}
+                    {%else%}
+                    <td> <a href = "{{path('login')}}">Login to play or watch</a>
+                        <br/>
+                    {%endif%}</td>
+            </tr>
         {% endfor %}
-            {% endblock %}
+    {% endblock %}
 
 

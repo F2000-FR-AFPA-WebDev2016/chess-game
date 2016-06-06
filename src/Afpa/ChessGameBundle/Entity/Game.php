@@ -19,33 +19,33 @@ class Game {
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_date", type="datetime")
      */
-    private $createdDate;
+    protected $createdDate;
 
     /**
      * @var string
      *
      * @ORM\Column(name="data", type="text")
      */
-    private $data;
+    protected $data;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="is_end", type="integer")
      */
-    private $isEnd;
+    protected $isEnd;
 
     /**
      * @ORM\OneToMany(targetEntity="User", mappedBy="game")
      */
-    private $users;
+    protected $users;
 
     /**
      * Get id
@@ -153,7 +153,7 @@ class Game {
      * @param \Integer $isEnd
      * @return Game
      */
-    public function setIsEnd(\int $isEnd) {
+    public function setIsEnd($isEnd) {
         $this->isEnd = $isEnd;
 
         return $this;
