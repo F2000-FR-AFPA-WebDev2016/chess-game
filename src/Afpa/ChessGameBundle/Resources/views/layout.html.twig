@@ -16,10 +16,9 @@
     <body>
         <header>
             <div id="titre_principal">
-                <div id="logo">
-                    <img src="{{asset("bundles/AfpaChessGame/images/default/logo.jpg")}}"/>
-                    <h1>Chess Game</h1>
-                </div>
+
+                <h1>Chess Game</h1>
+
             </div>
 
             <div>
@@ -32,7 +31,6 @@
                     <a href="{{path('login')}}"> Login</a><br />
                 {% endif %}
             </div>
-
             <nav>
                 <ul>
                     <li><a href="{{ path("home")}}">Accueil</a></li>
@@ -41,6 +39,7 @@
                     <li><a href="{{ path("plays")}}">Game Plays</a></li>
                 </ul>
             </nav>
+
 
             {% block img %}  {% endblock %}
         </header>

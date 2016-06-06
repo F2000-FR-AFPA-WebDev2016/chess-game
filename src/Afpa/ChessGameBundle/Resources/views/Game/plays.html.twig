@@ -27,11 +27,11 @@
                             <a href = "{{path('home')}}">Watch</a> </td>
                         {%endif%}
                     {%else%}
-                    <td> <a href = "{{path('login')}}">Login to play or watch</a>
-                        <br/>
-                    {%endif%}</td>
-            </tr>
-        {% endfor %}
-    {% endblock %}
+                <a href = "{{path('login')}}">Login to play or watch</a>
+                <br/>
+            {%endif%}
+        </tr>
+    {% endfor %}
+{% endblock %}
 
 
