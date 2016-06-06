@@ -82,6 +82,8 @@ nav a
 td {min-width:70px;height:70px;}
 td.selected {background-color: rgb(250, 234, 115);}
 td.possible {background-color: rgb(102, 255, 102);}
+td.eat {background-color: rgb(255, 51, 51);}
+
 .td_light {background-color:rgb(223, 176, 98);
 }
 .td_dark {background-color:rgb(134, 89, 60);
