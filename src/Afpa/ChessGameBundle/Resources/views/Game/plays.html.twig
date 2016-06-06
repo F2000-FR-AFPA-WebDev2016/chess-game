@@ -8,13 +8,24 @@
         <thead>
             <tr style="width:100%">
                 <th>ID GAME</th>
-                <th>Created Date</th>
+                <th>CREATED DATE</th>
+                <th>NUMBER OF PLAYERS</th>
+                <th>ACTION</th>
             </tr>
         </thead>
         {% for game in games %}
             <tr>
                 <td>{{ game.id }}</td>
                 <td>{{ game.createdDate | date('d|m|Y')}}</td>
-            </tr>
+                <td>{{ game.getUsers|length }}</td>
+                <td> {% if game.getUsers|length < 2 %}
+                    <a href = "{{path('home')}}">Join</a> <br/>
+                {%else%}
+                    <a href = "{{path('home')}}">Watch</a> </td>
+            <br/>
+            {%endif%} </td>
+        </tr>
         {% endfor %}
-    {% endblock %}
+            {% endblock %}
+
+

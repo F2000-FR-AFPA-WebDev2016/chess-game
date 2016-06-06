@@ -99,27 +99,6 @@ class Game {
     }
 
     /**
-     * Set user
-     *
-     * @param \Afpa\ChessGameBundle\Entity\User $user
-     * @return Game
-     */
-    public function setUser(\Afpa\ChessGameBundle\Entity\User $user = null) {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Afpa\ChessGameBundle\Entity\User
-     */
-    public function getUser() {
-        return $this->user;
-    }
-
-    /**
      * Constructor
      */
     public function __construct() {
