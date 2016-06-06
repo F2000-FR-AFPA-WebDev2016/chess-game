@@ -29,6 +29,14 @@ class GameController extends Controller {
     }
 
     /**
+     * @Route("/plays", name="plays")
+     * @Template()
+     */
+    public function playsAction() {
+        return $this->render('AfpaChessGameBundle:Game:plays.html.twig');
+    }
+
+    /**
      * @Route("/credits", name="credits")
      * @Template()
      */

@@ -36,9 +36,10 @@ class User {
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity="Game", mappedBy="user")
+     * @ORM\ManyToOne(targetEntity="Game", inversedBy="user")
+     * @ORM\JoinColumn(name="game_id", referencedColumnName="id")
      */
-    private $games;
+    private $game;
 
     /**
      * @var string
@@ -126,21 +127,19 @@ class User {
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->games = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add games
      *
      * @param \Afpa\ChessGameBundle\Entity\Game $games
      * @return User
      */
-    public function addGame(\Afpa\ChessGameBundle\Entity\Game $games)
-    {
+    public function addGame(\Afpa\ChessGameBundle\Entity\Game $games) {
         $this->games[] = $games;
-    
+
         return $this;
     }
 
@@ -149,18 +148,40 @@ class User {
      *
      * @param \Afpa\ChessGameBundle\Entity\Game $games
      */
-    public function removeGame(\Afpa\ChessGameBundle\Entity\Game $games)
-    {
+    public function removeGame(\Afpa\ChessGameBundle\Entity\Game $games) {
         $this->games->removeElement($games);
     }
 
     /**
      * Get games
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getGames()
-    {
+    public function getGames() {
         return $this->games;
+    }
+
+
+    /**
+     * Set game
+     *
+     * @param \Afpa\ChessGameBundle\Entity\Game $game
+     * @return User
+     */
+    public function setGame(\Afpa\ChessGameBundle\Entity\Game $game = null)
+    {
+        $this->game = $game;
+    
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return \Afpa\ChessGameBundle\Entity\Game 
+     */
+    public function getGame()
+    {
+        return $this->game;
     }
 }
