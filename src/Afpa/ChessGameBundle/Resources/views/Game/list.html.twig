@@ -1,0 +1,47 @@
+{% extends "AfpaChessGameBundle::layout.html.twig" %}
+
+{% block title %}AfpaChessGameBundle:Game:plays{% endblock %}
+
+{% block body %}
+    <h1>Welcome at the Online Game page</h1>
+
+    {% if app.request.session.get('oUser') is not null %}
+        <a href = "{{path('create')}}">Start a new game</a>
+    {%else%}
+        <a href = "{{path('login')}}">Login to start a new game</a>
+    {%endif%}
+    <br/>
+    <br/>
+    <table width ="80%" border="1" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr style="width:100%">
+                <th>ID GAME</th>
+                <th>CREATED DATE</th>
+                <th>NUMBER OF PLAYERS</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+        {% for game in games %}
+            <tr>
+                <td>{{ game.id }}</td>
+                <td>{{ game.createdDate | date('d|m|Y')}}</td>
+                <td>{{ game.getUsers|length }} / 2</td>
+                <td>
+                    {% if app.request.session.get('oUser') is not null %}
+
+                        {% if (game.getUsers|length < 2) %}
+                            <a href = "{{path('home')}}">Join</a> <br/><a href = "{{path('home')}}">Watch</a>
+                        {%else%}
+                            <a href = "{{path('home')}}">Watch</a> </td>
+                        {%endif%}
+                    {%else%}
+
+                <a href = "{{path('login')}}">Login to play or watch</a></td>
+            <br/>
+        {%endif%}</td>
+</tr>
+{% endfor %}
+
+{% endblock %}
+
+

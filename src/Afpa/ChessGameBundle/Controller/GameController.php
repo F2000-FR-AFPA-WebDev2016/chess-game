@@ -29,10 +29,10 @@ class GameController extends Controller {
     }
 
     /**
-     * @Route("/plays", name="plays")
+     * @Route("/game/list", name="game_list")
      * @Template()
      */
-    public function playsAction() {
+    public function listAction() {
 
         $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
         $oGames = $repo->findAll();
@@ -117,6 +117,19 @@ class GameController extends Controller {
                     'board' => $oGame->getBoard(),
                     'player' => $oGame->getPlayer(),
         ));
+    }
+
+    /**
+     * @Route("/game/create", name="create")
+     * @Template()
+     */
+    public function createGameAction(Request $request) {
+        $oSession = $request->getSession();
+        $oGame = $oSession->get('game');
+        echo ($oGame->getId());
+
+        //return array('game' => $oGame);
+        return $this->redirect($this->generateUrl('game_list'));
     }
 
 }
