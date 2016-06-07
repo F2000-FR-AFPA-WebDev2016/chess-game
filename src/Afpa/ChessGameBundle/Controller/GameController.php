@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Afpa\ChessGameBundle\Entity\Game;
 use Afpa\ChessGameBundle\Model\Chessboard;
 
 class GameController extends Controller {
@@ -125,10 +126,19 @@ class GameController extends Controller {
      */
     public function createGameAction(Request $request) {
         $oSession = $request->getSession();
-        $oGame = $oSession->get('game');
-        echo ($oGame->getId());
 
-        //return array('game' => $oGame);
+        $oGame = new Game;
+        $oGame->setCreatedDate(new \DateTime('now'));
+        $oGame->setData('');
+        $oGame->setIsEnd(0);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($oGame);
+        $em->flush();
+
+
+
+
         return $this->redirect($this->generateUrl('game_list'));
     }
 
