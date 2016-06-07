@@ -11,8 +11,6 @@ use Afpa\ChessGameBundle\Model\Chessboard;
 
 class GameController extends Controller {
 
-    protected $theme = 'default';
-
     /**
      * @Route("/",name="home")
      * @Template()
@@ -23,6 +21,7 @@ class GameController extends Controller {
         if (!$oGame) {
             $oGame = new Chessboard;
             $oSession->set('game', $oGame);
+            $oSession->set('theme', 'default');
         }
 
         return $this->render('AfpaChessGameBundle:Game:home.html.twig');
@@ -111,9 +110,33 @@ class GameController extends Controller {
     public function gameViewAction(Request $request) {
         $oSession = $request->getSession();
         $oGame = $oSession->get('game');
+        $sTheme = $oSession->get('theme');
+
+        $defaultData = array(
+            'theme' => $sTheme,
+            'difficulty' => $oGame->getDifficulty()
+        );
+        $oForm = $this->createFormBuilder($defaultData)
+                ->add('theme', 'choice', array(
+                    'choices' => array(
+                        'default' => 'Default',
+                        'sexy' => 'Sexy'
+                    ),
+                    'required' => true,
+                ))
+                ->add('difficulty', 'choice', array(
+                    'choices' => array(
+                        Chessboard::DIFFICULTY_EASY => 'Easy',
+                        Chessboard::DIFFICULTY_MEDIUM => 'Medium',
+                        Chessboard::DIFFICULTY_HARD => 'Hard',
+                    ),
+                    'required' => true,
+                ))
+                ->getForm();
 
         return $this->render('AfpaChessGameBundle:Game:gameView.html.twig', array(
-                    'theme' => $this->theme,
+                    'form' => $oForm->createView(),
+                    'theme' => $sTheme,
                     'board' => $oGame->getBoard(),
                     'player' => $oGame->getPlayer(),
         ));
@@ -130,6 +153,33 @@ class GameController extends Controller {
 
         //return array('game' => $oGame);
         return $this->redirect($this->generateUrl('game_list'));
+    }
+
+    /**
+     * @Route("game/options/difficulty")
+     * @Template()
+     */
+    public function setDifficultyAction(Request $request) {
+        $oSession = $request->getSession();
+        $oGame = $oSession->get('game');
+
+        $sDifficulty = $request->get('difficulty');
+        $oGame->setDifficulty($sDifficulty);
+
+        return new \Symfony\Component\HttpFoundation\JsonResponse();
+    }
+
+    /**
+     * @Route("game/options/theme")
+     * @Template()
+     */
+    public function setThemeAction(Request $request) {
+        $theme = $request->get('theme');
+
+        $oSession = $request->getSession();
+        $oSession->set('theme', $theme);
+
+        return new \Symfony\Component\HttpFoundation\JsonResponse();
     }
 
 }
