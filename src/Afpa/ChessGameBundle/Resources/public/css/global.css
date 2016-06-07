@@ -8,19 +8,23 @@ body
 }
 header
 {
-    background: url('../images/default/couverture1.jpg') repeat-x bottom;
+    background: url('../images/default/black-and-white-1298024_960_720.png');
+    background-color:#405BA4;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    min-height: 150px;
-
-
-
+    min-height: 230px;
 }
+
+li{
+    background-color: #7E91C4;
+}
+
 #titre_principal
 {
-    display: flex;
+    font: 20px serif;
     flex-direction: column;
+    color:#7E91C4;
 }
 
 #logo
