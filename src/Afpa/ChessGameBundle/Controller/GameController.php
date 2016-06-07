@@ -162,4 +162,15 @@ class GameController extends Controller {
         return $this->redirect($this->generateUrl('game_list'));
     }
 
+    /**
+     * @Route("/game/join/{idGame}", name="join")
+     * @Template()
+     */public function joinGameAction($idGame) {
+        $oSession = $request->getSession();
+        // Si l'utilisateur n'est pas connecté, redirection list :
+        if (!$oSession->get('oUser') instanceof User) {
+            return $this->redirect($this->generateUrl('game_list'));
+        }
+    }
+
 }
