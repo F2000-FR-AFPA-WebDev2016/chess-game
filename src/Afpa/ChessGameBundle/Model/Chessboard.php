@@ -9,6 +9,10 @@ namespace Afpa\ChessGameBundle\Model;
 class Chessboard {
 
     const MAX_SIZE = 7;
+    const STATUS_OK = 0;
+    const STATUS_ERR = 1;
+    const STATUS_ERR_CHESS = 2;
+    const STATUS_ERR_CHESSMAT = 3;
 
     /**
      * @var integer
@@ -275,7 +279,7 @@ class Chessboard {
     }
 
     public function doAction($x1, $y1, $x2 = null, $y2 = null) {
-        $sStatus = 'error';
+        $sStatus = self::STATUS_ERR;
         $bNextPlayer = false;
         $bNewSelection = false;
         $oPiece1 = $this->board[$x1][$y1];
@@ -297,7 +301,7 @@ class Chessboard {
                         $x1 = null;
                         $y1 = null;
 
-                        $sStatus = 'success';
+                        $sStatus = self::STATUS_OK;
                         $bNextPlayer = true;
                     }
                 }
@@ -312,7 +316,7 @@ class Chessboard {
                         $aTabPossibilities = $this->getMovePossibilities($oPiece2, $x2, $y2);
                         $aTabPossEat = $this->getEatPossibilities($oPiece2, $x2, $y2);
 
-                        $sStatus = 'success';
+                        $sStatus = self::STATUS_OK;
                         $bNewSelection = true;
                     }
                 }
@@ -324,7 +328,7 @@ class Chessboard {
                         $x1 = null;
                         $y1 = null;
 
-                        $sStatus = 'success';
+                        $sStatus = self::STATUS_OK;
                         $bNextPlayer = true;
                     }
                     // TODO
@@ -334,7 +338,7 @@ class Chessboard {
 
                 if ($this->IsKingCheck() && !$bNewSelection) {
                     // revevnir a letat precedent
-                    $sStatus = 'error';
+                    $sStatus = self::STATUS_ERR_CHESS;
                     $bNextPlayer = FALSE;
                     $this->board = $aBackupBoard;
                 }
@@ -344,7 +348,7 @@ class Chessboard {
                 }
             } else {
                 // cas selection
-                $sStatus = 'success';
+                $sStatus = self::STATUS_OK;
             }
         }
         return array(
