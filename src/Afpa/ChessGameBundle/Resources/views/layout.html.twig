@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Chess Game{% endblock %}</title>
+        <title>{% block title %}CHESS GAME{% endblock %}</title>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
         {% block stylesheets %}
@@ -16,12 +16,12 @@
     <body>
         <header>
             <div id="titre_principal">
-
-                <h1>Chess Game</h1>
-
+                <h1>CHESS GAME</h1>
             </div>
 
-            <div>
+
+
+            <div id="login">
                 {% if app.request.session.get('oUser') is not null %}
                     Connecté sous {{ app.request.session.get('oUser').nickname }}
                     <br />
@@ -31,19 +31,21 @@
                     <a href="{{path('login')}}"> Login</a><br />
                 {% endif %}
             </div>
-            <nav>
-                <ul>
-                    <li><a href="{{ path("home")}}">Accueil</a></li>
-                    <li><a href="{{ path("credits")}}">Credits</a></li>
-                    <li><a href="{{ path("rules")}}">Rules</a></li>
-                    <li><a href="{{ path("game_list")}}">Game Plays</a></li>
-                </ul>
-            </nav>
-
 
             {% block img %}  {% endblock %}
+            <div>
+                <nav>
+                    <ul>
+                        <li><a href="{{ path("home")}}">Home</a></li>
+                        <li><a href="{{ path("credits")}}">Credits</a></li>
+                        <li><a href="{{ path("rules")}}">Rules</a></li>
+                        <li><a href="{{ path("game_list")}}">Games in play</a></li>
+                    </ul>
+                </nav>
+            </div>
         </header>
         {% block body %}
+
         {% endblock %}
     {% block javascripts %}{% endblock %}
 </body>

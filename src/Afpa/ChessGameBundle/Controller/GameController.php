@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Afpa\ChessGameBundle\Entity\Game;
 use Afpa\ChessGameBundle\Model\Chessboard;
 
 class GameController extends Controller {
@@ -36,7 +37,15 @@ class GameController extends Controller {
         $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
         $oGames = $repo->findAll();
 
-        return array('games' => $oGames);
+        $oGame = null;
+        // Si l'utilisateur est connecté, on récupère la partie liée si existante
+
+
+
+        return array(
+            'games' => $oGames,
+            'game_user' => $oGame
+        );
     }
 
     /**
@@ -148,10 +157,31 @@ class GameController extends Controller {
      */
     public function createGameAction(Request $request) {
         $oSession = $request->getSession();
-        $oGame = $oSession->get('game');
-        echo ($oGame->getId());
+        // Si l'utilisateur n'est pas connecté, redirection list :
+        if (!$oSession->get('oUser') instanceof User) {
+            return $this->redirect($this->generateUrl('game_list'));
+        }
 
-        //return array('game' => $oGame);
+        $oGame = new Game;
+        $oGame->setCreatedDate(new \DateTime('now'));
+        $oGame->setData('');
+        $oGame->setIsEnd(0);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($oGame);
+        $em->flush();
+
+        // récupéerer en base, le user connecté
+        // + faire un setGame(xxx)
+
+        $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:User');
+        $oUser = $repo->findOneById($oSession->get('oUser')->getId());
+
+        $oUser->setGame($oGame);
+        $emm = $this->getDoctrine()->getManager();
+        $emm->persist($oUser);
+        $emm->flush();
+
         return $this->redirect($this->generateUrl('game_list'));
     }
 
@@ -180,6 +210,18 @@ class GameController extends Controller {
         $oSession->set('theme', $theme);
 
         return new \Symfony\Component\HttpFoundation\JsonResponse();
+    }
+
+    /**
+     * @Route("/game/join/{idGame}", name="join")
+     * @Template()
+     */
+    public function joinGameAction($idGame) {
+        $oSession = $request->getSession();
+        // Si l'utilisateur n'est pas connecté, redirection list :
+        if (!$oSession->get('oUser') instanceof User) {
+            return $this->redirect($this->generateUrl('game_list'));
+        }
     }
 
 }
