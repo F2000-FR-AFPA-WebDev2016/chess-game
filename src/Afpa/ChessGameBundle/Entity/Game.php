@@ -57,48 +57,6 @@ class Game {
     }
 
     /**
-     * Set saveGame
-     *
-     * @param string $saveGame
-     * @return game
-     */
-    public function setSaveGame($saveGame) {
-        $this->saveGame = $saveGame;
-
-        return $this;
-    }
-
-    /**
-     * Get saveGame
-     *
-     * @return string
-     */
-    public function getSaveGame() {
-        return $this->saveGame;
-    }
-
-    /**
-     * Set savedDate
-     *
-     * @param \DateTime $savedDate
-     * @return Game
-     */
-    public function setSavedDate($savedDate) {
-        $this->savedDate = $savedDate;
-
-        return $this;
-    }
-
-    /**
-     * Get savedDate
-     *
-     * @return \DateTime
-     */
-    public function getSavedDate() {
-        return $this->savedDate;
-    }
-
-    /**
      * Constructor
      */
     public function __construct() {

@@ -30,7 +30,7 @@
                     {% if app.request.session.get('oUser') is not null %}
 
                         {% if (game.getUsers|length < 2) %}
-                            <a href = "{{path('home')}}">Join</a> <br/><a href = "{{path('home')}}">Watch</a>
+                            <a href = "{{path('home')}}">Join</a> <br/>
                         {%else%}
                             <a href = "{{path('home')}}">Watch</a> </td>
                         {%endif%}
