@@ -38,7 +38,15 @@ class GameController extends Controller {
         $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
         $oGames = $repo->findAll();
 
-        return array('games' => $oGames);
+        $oGame = null;
+        // Si l'utilisateur est connecté, on récupère la partie liée si existante
+
+
+
+        return array(
+            'games' => $oGames,
+            'game_user' => $oGame
+        );
     }
 
     /**
@@ -126,6 +134,10 @@ class GameController extends Controller {
      */
     public function createGameAction(Request $request) {
         $oSession = $request->getSession();
+        // Si l'utilisateur n'est pas connecté, redirection list :
+        if (!$oSession->get('oUser') instanceof User) {
+            return $this->redirect($this->generateUrl('game_list'));
+        }
 
         $oGame = new Game;
         $oGame->setCreatedDate(new \DateTime('now'));
@@ -136,8 +148,16 @@ class GameController extends Controller {
         $em->persist($oGame);
         $em->flush();
 
+        // récupéerer en base, le user connecté
+        // + faire un setGame(xxx)
 
+        $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:User');
+        $oUser = $repo->findOneById($oSession->get('oUser')->getId());
 
+        $oUser->setGame($oGame);
+        $emm = $this->getDoctrine()->getManager();
+        $emm->persist($oUser);
+        $emm->flush();
 
         return $this->redirect($this->generateUrl('game_list'));
     }
