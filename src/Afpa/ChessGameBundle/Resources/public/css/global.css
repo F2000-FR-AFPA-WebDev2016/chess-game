@@ -1,9 +1,15 @@
-body
+@font-face {
+    font-family: Monopoly Bold;
+    src: url('Monopoly Bold.ttf') format('truetype');
+}
 
+body
 {
+    font-family: Monopoly Bold;
     max-width:1200px;
     margin: auto;
-    ;
+    background-image: url('../images/default/back.png');
+    background-repeat:no-repeat;
 }
 
 header
@@ -14,25 +20,27 @@ header
     justify-content: space-between;
     max-width:1200px;
     min-height: 230px;
+    position: relative;
 }
 
 li{
-    color: #7E91C4;
+    color: #ccccff;
 }
 
 #titre_principal
 {
-    font: 20px serif;
+    font-size: 25px;
     flex-direction: column;
-    color:#7E91C4;
+    color:#ccccff;
+    margin: -15px 0 0 5px;
 }
 
-header h1
-{
-    font-family: 'BallparkWeiner', serif;
-    font-size: 2.5em;
-    font-weight: normal;
-    margin: 0 0 0 10px;
+
+#login {
+    position: absolute;
+    right: 220px;
+    bottom: 50px;
+    font-size: 1.5em;
 }
 
 
@@ -54,9 +62,9 @@ nav li
 nav a
 {
     font-size: 2em;
-    color: #181818;
     padding-bottom: 3px;
     text-decoration: none;
+    color: black;
 }
 
 
@@ -65,7 +73,6 @@ nav a
     justify-content: center;
     align-items: center;
     font-size: 2em;
-    color: #181818;
 }
 
 #board {
@@ -87,6 +94,7 @@ table#board{
     border-style: inset;
     border-color: rgb(191, 136, 106);
     background-color: rgb(134, 89, 60)
+
 }
 .piece
 
@@ -95,10 +103,6 @@ table#board{
     height: 68px;
 }
 
-@font-face {
-    font-family: 'District';
-    src: url('District.ttf') format('truetype');
-}
 
 #loginform {
     display: flex;
@@ -167,4 +171,5 @@ input:focu
 
 
 }
+
 

@@ -158,6 +158,7 @@ class GameController extends Controller {
      */
     public function createGameAction(Request $request) {
         $oSession = $request->getSession();
+
         // Si l'utilisateur n'est pas connecté, redirection list :
         if (!$oSession->get('oUser') instanceof User) {
             return $this->redirect($this->generateUrl('game_list'));
@@ -176,12 +177,9 @@ class GameController extends Controller {
         // + faire un setGame(xxx)
 
         $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:User');
-        $oUser = $repo->findOneById($oSession->get('oUser')->getId());
-
+        $oUser = $repo->find($oSession->get('oUser')->getId());
         $oUser->setGame($oGame);
-        $emm = $this->getDoctrine()->getManager();
-        $emm->persist($oUser);
-        $emm->flush();
+        $em->flush();
 
         return $this->redirect($this->generateUrl('game_list'));
     }
@@ -216,12 +214,41 @@ class GameController extends Controller {
     /**
      * @Route("/game/join/{idGame}", name="join")
      * @Template()
-     */
-    public function joinGameAction($idGame) {
+     * */
+    public function joinGameAction(Request $request, $idGame) {
+
         $oSession = $request->getSession();
+
         // Si l'utilisateur n'est pas connecté, redirection list :
         if (!$oSession->get('oUser') instanceof User) {
             return $this->redirect($this->generateUrl('game_list'));
+        }
+
+        $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
+        $oGame = $repo->find($idGame);
+
+        $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:User');
+        $oUser = $repo->find($oSession->get('oUser')->getId());
+        $oUser->setGame($oGame);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        //if(user connected)
+        if ($oSession->get('oUser') instanceof User) {
+            $oSession = $request->getSession();
+            $oGame = $oSession->get('game');
+            if (!$oGame) {
+                //new chessboard
+                $oGame = new Chessboard;
+                $oSession->set('game', $oGame);
+            }
+            //$oUser->setStatus($oGame);
+            //$oUser->setData($oGame);
+            //$em = $this->getDoctrine()->getManager();
+            //$em->flush();
+
+            return $this->render('AfpaChessGameBundle:Game:home.html.twig');
         }
     }
 
