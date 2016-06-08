@@ -2,6 +2,8 @@
 
 namespace Afpa\ChessGameBundle\Model;
 
+use Afpa\ChessGameBundle\Entity\Game;
+
 /**
  * Chessboard
  *
@@ -56,6 +58,16 @@ class Chessboard {
      * @var boolean
      */
     private $playerTurn;
+
+    /**
+     * @var integer
+     */
+    private $playerWhite;
+
+    /**
+     * @var integer
+     */
+    private $playerBlack;
 
     /**
      * @var integer
@@ -428,6 +440,19 @@ class Chessboard {
 
     function setDifficulty($difficulty) {
         $this->difficulty = $difficulty;
+    }
+
+    function setPlayers(Game $oGame) {
+        // recuperer les joueurs
+        $aPlayers = $oGame->getUsers()->toArray();
+
+        if (count($aPlayers) == 2) {
+            // melanger le tableau
+            shuffle($aPlayers);
+
+            $this->playerWhite = $aPlayers[0]->getId();
+            $this->playerBlack = $aPlayers[1]->getId();
+        }
     }
 
 }

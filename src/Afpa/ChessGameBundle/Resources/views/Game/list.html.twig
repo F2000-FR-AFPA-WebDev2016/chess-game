@@ -7,9 +7,9 @@
 
     {% if app.request.session.get('oUser') is not null %}
         <a href = "{{path('create')}}">Start a new game</a>
-    {%else%}
+    {% else %}
         <a href = "{{path('login')}}">Login to start a new game</a>
-    {%endif%}
+    {% endif %}
     <br/>
     <table width ="80%" border="1" cellpadding="0" cellspacing="0">
         <thead>
@@ -26,21 +26,23 @@
                 <td>{{ game.createdDate | date('Y-m-d H:i:s')}}</td>
                 <td>{{ game.getUsers|length }} / 2</td>
                 <td>
-                    {% if app.request.session.get('oUser') is not null %}
+                    {% if (game_user is not null) and game_user.id == game.id %}
+                        En attente de joueurs
 
-                        {% if (game.getUsers|length < 2) %}
-                            <a href = "{{path('home')}}">Join</a> <br/>
-                        {%else%}
-                            <a href = "{{path('home')}}">Watch</a> </td>
-                        {%endif%}
-                    {%else%}
+                    {% elseif (game.getUsers|length < 2) %}
+                        {% if app.request.session.get('oUser') is not null %}
+                            <a href="{{path('join', {idGame : game.id})}}">Join</a><br />
+                        {% else %}
+                            <a href="{{path('login')}}">Login to play</a><br />
+                        {% endif %}
 
-                <a href = "{{path('login')}}">Login to play or watch</a></td>
-            <br/>
-        {%endif%}</td>
-</tr>
-{% endfor %}
-
+                    {% else %}
+                        <a href = "{{ path('home') }}">Watch</a>
+                    {%endif%}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
 
 

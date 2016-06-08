@@ -10,8 +10,19 @@
         <link rel="stylesheet" type="text/css" href="{{asset("bundles/afpachessgame/css/global.css")}}" />
 
         <script type="text/javascript" src="{{ asset('bundles/afpachessgame/js/jquery-1.12.3.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/afpachessgame/js/script.js') }}"></script>
-
+        <script>
+            var baseUrl = "{{ app.request.getBaseURL() }}";
+            var baseUrlParts = baseUrl.split('/');
+            //retirer le dernier element de l'url : app_dev.php : .pop
+            //derniere cellule vide => faire pop
+            // pour gerer si quelu'un ajoute un "/" :
+            if (baseUrlParts[baseUrlParts.length - 1] === '') {
+                baseUrlParts.pop();
+            }
+            //Ajout / a la fin de la chaine de cara
+            var START_URL = baseUrlParts.join('/');
+        </script>
+        <script type="text/javascript" src="{{ asset('bundles/afpachessgame/js/functions.js') }}"></script>
     </head>
     <body>
         <header>

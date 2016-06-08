@@ -1,0 +1,9 @@
+{% extends "AfpaChessGameBundle::layout.html.twig" %}
+
+{% block title %}AfpaChessGameBundle:Game:home{% endblock %}
+
+{% block body %}
+    <div id="game">
+        {{ render(controller('AfpaChessGameBundle:Game:refreshGame', {'idGame' : idGame})) }}
+    </div>
+{% endblock %}

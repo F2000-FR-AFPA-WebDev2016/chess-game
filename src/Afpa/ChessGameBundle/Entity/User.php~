@@ -19,34 +19,34 @@ class User {
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="nickname", type="string", length=255)
      */
-    private $nickname;
+    protected $nickname;
 
     /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
      */
-    private $email;
+    protected $email;
 
     /**
      * @ORM\ManyToOne(targetEntity="Game", inversedBy="user")
      * @ORM\JoinColumn(name="game_id", referencedColumnName="id")
      */
-    private $game;
+    protected $game;
 
     /**
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
      */
-    private $password;
+    protected $password;
 
     /**
      * Get id
@@ -161,27 +161,25 @@ class User {
         return $this->games;
     }
 
-
     /**
      * Set game
      *
      * @param \Afpa\ChessGameBundle\Entity\Game $game
      * @return User
      */
-    public function setGame(\Afpa\ChessGameBundle\Entity\Game $game = null)
-    {
+    public function setGame(\Afpa\ChessGameBundle\Entity\Game $game = null) {
         $this->game = $game;
-    
+
         return $this;
     }
 
     /**
      * Get game
      *
-     * @return \Afpa\ChessGameBundle\Entity\Game 
+     * @return \Afpa\ChessGameBundle\Entity\Game
      */
-    public function getGame()
-    {
+    public function getGame() {
         return $this->game;
     }
+
 }

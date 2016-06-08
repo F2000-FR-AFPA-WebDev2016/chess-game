@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Game {
 
+    const STATUS_WAITING = 0;
+    const STATUS_STARTED = 1;
+    const STATUS_ENDED = 2;
+
     /**
      * @var integer
      *
@@ -19,33 +23,40 @@ class Game {
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_date", type="datetime")
      */
-    private $createdDate;
+    protected $createdDate;
 
     /**
      * @var string
      *
      * @ORM\Column(name="data", type="text")
      */
-    private $data;
+    protected $data;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="is_end", type="integer")
      */
-    private $isEnd;
+    protected $isEnd;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="status", type="integer")
+     */
+    protected $status;
 
     /**
      * @ORM\OneToMany(targetEntity="User", mappedBy="game")
      */
-    private $users;
+    protected $users;
 
     /**
      * Get id
@@ -54,69 +65,6 @@ class Game {
      */
     public function getId() {
         return $this->id;
-    }
-
-    /**
-     * Set saveGame
-     *
-     * @param string $saveGame
-     * @return game
-     */
-    public function setSaveGame($saveGame) {
-        $this->saveGame = $saveGame;
-
-        return $this;
-    }
-
-    /**
-     * Get saveGame
-     *
-     * @return string
-     */
-    public function getSaveGame() {
-        return $this->saveGame;
-    }
-
-    /**
-     * Set savedDate
-     *
-     * @param \DateTime $savedDate
-     * @return Game
-     */
-    public function setSavedDate($savedDate) {
-        $this->savedDate = $savedDate;
-
-        return $this;
-    }
-
-    /**
-     * Get savedDate
-     *
-     * @return \DateTime
-     */
-    public function getSavedDate() {
-        return $this->savedDate;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \Afpa\ChessGameBundle\Entity\User $user
-     * @return Game
-     */
-    public function setUser(\Afpa\ChessGameBundle\Entity\User $user = null) {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Afpa\ChessGameBundle\Entity\User
-     */
-    public function getUser() {
-        return $this->user;
     }
 
     /**
@@ -174,7 +122,7 @@ class Game {
      * @param \Integer $isEnd
      * @return Game
      */
-    public function setIsEnd(\int $isEnd) {
+    public function setIsEnd($isEnd) {
         $this->isEnd = $isEnd;
 
         return $this;

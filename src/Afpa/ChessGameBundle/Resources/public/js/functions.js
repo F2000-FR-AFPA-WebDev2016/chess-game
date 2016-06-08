@@ -1,9 +1,17 @@
 $(document).ready(function () {
+    selected_case = undefined;
+
     function refreshView() {
+        url = START_URL + '/game/refresh';
+        idGame = getGameId();
+        if (idGame) {
+            url += '/' + idGame;
+        }
+
         $.ajax({
             async: true,
             type: 'POST',
-            url: "game/view",
+            url: url,
             error: function (dataerror) {
                 alert(dataerror);
             },
@@ -13,8 +21,21 @@ $(document).ready(function () {
         });
     }
 
+    function updateCases(data, css_class) {
+        $('#game td').removeClass(css_class);
+        for (i = 0; i < data.length; i++) {
+            //$('td:td_' + data.pos_move['x'] + '_' + data.pos_move['y']).addClass('selected');
+            x1 = data[i][0];
+            y1 = data[i][1];
+            $('#td_' + x1 + '_' + y1).addClass(css_class);
+            console.log($('#td_' + x1 + '_' + y1));
+        }
+    }
 
-    selected_case = undefined;
+    function getGameId() {
+        return $('#board').data('id');
+    }
+
     $(document).on('click', '#game td', function () {
         data = undefined;
 
@@ -40,11 +61,17 @@ $(document).ready(function () {
         if (data !== undefined) {
             selected_case_tmp = $(this);
 
+            url = START_URL + '/game/action';
+            idGame = getGameId();
+            if (idGame) {
+                url += '/' + idGame;
+            }
+
             $.ajax({
                 async: true,
                 //context: this,
                 type: 'POST',
-                url: 'game/action',
+                url: url,
                 data: data,
                 error: function (dataerror) {
                     console.log(dataerror);
@@ -82,27 +109,20 @@ $(document).ready(function () {
         console.log($(this).data('x') + ',' + $(this).data('y'));
     });
 
-
-    function updateCases(data, css_class) {
-        $('#game td').removeClass(css_class);
-        for (i = 0; i < data.length; i++) {
-            //$('td:td_' + data.pos_move['x'] + '_' + data.pos_move['y']).addClass('selected');
-            x1 = data[i][0];
-            y1 = data[i][1];
-            $('#td_' + x1 + '_' + y1).addClass(css_class);
-            console.log($('#td_' + x1 + '_' + y1));
-        }
-
-    }
-
     $(document).on('change', '#form_difficulty', function () {
         var value = $('#form_difficulty').val();
         console.log(value);
 
+        url = START_URL + '/game/options/difficulty';
+        idGame = getGameId();
+        if (idGame) {
+            url += '/' + idGame;
+        }
+
         $.ajax({
             async: true,
             type: 'POST',
-            url: "game/options/difficulty",
+            url: url,
             data: {
                 'difficulty': value
             },
@@ -117,7 +137,6 @@ $(document).ready(function () {
 
     });
 
-
     $(document).on('change', '#form_theme', function () {
         var value = $('#form_theme').val();
         console.log(value);
@@ -125,7 +144,7 @@ $(document).ready(function () {
         $.ajax({
             async: true,
             type: 'POST',
-            url: "game/options/theme",
+            url: START_URL + '/options/theme',
             data: {
                 'theme': value
             },
@@ -136,9 +155,5 @@ $(document).ready(function () {
                 refreshView();
             }
         });
-
-
     });
-
-
 });
