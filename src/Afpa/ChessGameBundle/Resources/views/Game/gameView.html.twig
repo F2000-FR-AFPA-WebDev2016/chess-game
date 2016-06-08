@@ -1,3 +1,5 @@
+
+
 <h2>OPTIONS</h2>
 <form method="POST" >
     {{ form_widget(form) }}
@@ -15,7 +17,7 @@
                 {% for y in (0..board|length-1) %}
                     <td id="td_{{x}}_{{y}}" data-x="{{ x }}" data-y="{{ y }}"  class="td_{{ ((x+y) % 2 == 0) ? 'light' : 'dark' }}">
                         {% if board[x][y] %}
-                            <img id="piece" src="{{ asset('bundles/afpachessgame/images/'~ theme ~'/' ~ board[x][y]) }}" />
+                            <img class="piece {{theme}}" src="{{ asset('bundles/afpachessgame/images/'~ theme ~'/' ~ board[x][y]) }}" />
                         {% endif %}
                     </td>
                 {% endfor %}

@@ -64,8 +64,12 @@ $(document).ready(function () {
                             selected_case = selected_case_tmp;
                             selected_case.addClass('selected');
 
-                            updateCases(data.pos_move, 'possible');
-                            updateCases(data.pos_eat, 'eat');
+                            if (data.pos_move) {
+                                updateCases(data.pos_move, 'possible');
+                            }
+                            if (data.pos_eat) {
+                                updateCases(data.pos_eat, 'eat');
+                            }
                             updateCases([data.posKingCheck], 'danger');
 
                         } else {

@@ -129,7 +129,8 @@ class GameController extends Controller {
                 ->add('theme', 'choice', array(
                     'choices' => array(
                         'default' => 'Default',
-                        'sexy' => 'Sexy'
+                        'sexy' => 'Sexy',
+                        'funny' => 'Funny',
                     ),
                     'required' => true,
                 ))

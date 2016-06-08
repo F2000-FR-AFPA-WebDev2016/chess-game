@@ -360,14 +360,19 @@ class Chessboard {
                 $sStatus = self::STATUS_OK;
             }
         }
-        return array(
+
+        $aReturn = array(
             'status' => $sStatus,
             'x_selected' => $x1,
             'y_selected' => $y1,
             'posKingCheck' => $this->getPosKingCheck(),
-            'pos_move' => $aTabPossibilities,
-            'pos_eat' => $aTabPossEat,
         );
+        if ($this->difficulty == self::DIFFICULTY_EASY) {
+            $aReturn['pos_move'] = $aTabPossibilities;
+            $aReturn['pos_eat'] = $aTabPossEat;
+        }
+
+        return $aReturn;
     }
 
     private function isRock() {

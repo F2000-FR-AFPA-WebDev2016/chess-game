@@ -3,10 +3,23 @@
 {% block title %}AfpaChessGameBundle:User:login{% endblock %}
 
 {% block body %}
-    <h1>Welcome at the User:login page</h1>
-    {{form_errors(form)}}
-    <form method="POST">
-        {{ form_widget(form) }}
-        <input type="submit">
-    </form>
+    <div class="container">
+        <section>
+            <div id="wrapper">
+                <h1 class="form">Login</h1>
+                <form method="POST" id="loginform">
+                    <div id="plogin" class="animate form">
+
+                        {{form_errors(form)}}
+
+
+                        {{ form_widget(form) }}
+
+                        <input type="submit">
+                    </div>
+
+                </form>
+            </div>
+        </section>
+    </div>
 {% endblock %}

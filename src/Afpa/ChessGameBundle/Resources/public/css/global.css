@@ -35,12 +35,6 @@ header h1
     margin: 0 0 0 10px;
 }
 
-#login {
-    position:absolute;
-    right: 280px;
-    bottom: 50px;
-    font-size: 1.5em;
-}
 
 /* Navigation */
 
@@ -94,8 +88,83 @@ table#board{
     border-color: rgb(191, 136, 106);
     background-color: rgb(134, 89, 60)
 }
+.piece
+
+{
+    width: 50px;
+    height: 68px;
+}
 
 @font-face {
     font-family: 'District';
     src: url('District.ttf') format('truetype');
 }
+
+#loginform {
+    display: flex;
+    width: 10em;
+    height: 10em;
+
+}
+
+#form > div {
+    display: flex;
+}
+form input:not([type=submit]) {
+    flex: 1; /* fluid width */
+    display: block; /* IE fix */
+    min-width: 0; /* fix for min-width: auto */
+}
+h1.form {
+
+    color: #345;
+    text-shadow: 1px 1px 1px #fff;
+    width: 100px;
+    margin: auto;
+
+
+
+}
+#loginform > div {
+    padding: 1em;
+    background: #fff;
+    border: 1px solid gray;
+    border-radius: 4px;
+}
+input,
+
+input:focus,
+textarea:focus {
+    outline: none;
+}
+input[type="submit"] {
+    padding: .3em 1em;
+    background: #555;
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+label {
+    width: 5em;
+    margin-right: .5em;
+    text-align: right;
+}
+input[type="submit"] {
+    margin-left: auto;
+}
+input:focu
+{
+    outline: none;
+}
+#plogin{
+    margin: auto
+}
+#wrapper{
+    width: 300px;
+    margin: auto;
+
+
+
+}
+
