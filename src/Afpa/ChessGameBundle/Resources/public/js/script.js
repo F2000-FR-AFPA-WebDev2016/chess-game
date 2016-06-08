@@ -94,4 +94,51 @@ $(document).ready(function () {
         }
 
     }
+
+    $(document).on('change', '#form_difficulty', function () {
+        var value = $('#form_difficulty').val();
+        console.log(value);
+
+        $.ajax({
+            async: true,
+            type: 'POST',
+            url: "game/options/difficulty",
+            data: {
+                'difficulty': value
+            },
+            error: function (dataerror) {
+                alert(dataerror);
+            },
+            success: function (data) {
+                refreshView();
+            }
+        });
+
+
+    });
+
+
+    $(document).on('change', '#form_theme', function () {
+        var value = $('#form_theme').val();
+        console.log(value);
+
+        $.ajax({
+            async: true,
+            type: 'POST',
+            url: "game/options/theme",
+            data: {
+                'theme': value
+            },
+            error: function (dataerror) {
+                alert(dataerror);
+            },
+            success: function (data) {
+                refreshView();
+            }
+        });
+
+
+    });
+
+
 });
