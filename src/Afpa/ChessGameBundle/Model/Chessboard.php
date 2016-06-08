@@ -13,6 +13,9 @@ class Chessboard {
     const STATUS_ERR = 1;
     const STATUS_ERR_CHESS = 2;
     const STATUS_ERR_CHESSMAT = 3;
+    const DIFFICULTY_EASY = 0;
+    const DIFFICULTY_MEDIUM = 1;
+    const DIFFICULTY_HARD = 2;
 
     /**
      * @var integer
@@ -53,6 +56,11 @@ class Chessboard {
      * @var boolean
      */
     private $playerTurn;
+
+    /**
+     * @var integer
+     */
+    protected $difficulty;
 
     /**
      * Get id
@@ -209,6 +217,7 @@ class Chessboard {
             $this->board[6][$i] = new Pawn(Piece::WHITE);
         }
         $this->playerTurn = Piece::WHITE;
+        $this->difficulty = self::DIFFICULTY_EASY;
     }
 
     public function getPlayerTurn() {
@@ -411,6 +420,14 @@ class Chessboard {
 
     public function isKingCheck() {
         return ($this->getPosKingCheck() !== false);
+    }
+
+    function getDifficulty() {
+        return $this->difficulty;
+    }
+
+    function setDifficulty($difficulty) {
+        $this->difficulty = $difficulty;
     }
 
 }
