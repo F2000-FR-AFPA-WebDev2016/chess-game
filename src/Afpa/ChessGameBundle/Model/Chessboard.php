@@ -2,6 +2,8 @@
 
 namespace Afpa\ChessGameBundle\Model;
 
+use Afpa\ChessGameBundle\Entity\Game;
+
 /**
  * Chessboard
  *
@@ -56,6 +58,16 @@ class Chessboard {
      * @var boolean
      */
     private $playerTurn;
+
+    /**
+     * @var integer
+     */
+    private $playerWhite;
+
+    /**
+     * @var integer
+     */
+    private $playerBlack;
 
     /**
      * @var integer
@@ -360,14 +372,19 @@ class Chessboard {
                 $sStatus = self::STATUS_OK;
             }
         }
-        return array(
+
+        $aReturn = array(
             'status' => $sStatus,
             'x_selected' => $x1,
             'y_selected' => $y1,
             'posKingCheck' => $this->getPosKingCheck(),
-            'pos_move' => $aTabPossibilities,
-            'pos_eat' => $aTabPossEat,
         );
+        if ($this->difficulty == self::DIFFICULTY_EASY) {
+            $aReturn['pos_move'] = $aTabPossibilities;
+            $aReturn['pos_eat'] = $aTabPossEat;
+        }
+
+        return $aReturn;
     }
 
     private function isRock() {
@@ -428,6 +445,19 @@ class Chessboard {
 
     function setDifficulty($difficulty) {
         $this->difficulty = $difficulty;
+    }
+
+    function setPlayers(Game $oGame) {
+        // recuperer les joueurs
+        $aPlayers = $oGame->getUsers()->toArray();
+
+        if (count($aPlayers) == 2) {
+            // melanger le tableau
+            shuffle($aPlayers);
+
+            $this->playerWhite = $aPlayers[0]->getId();
+            $this->playerBlack = $aPlayers[1]->getId();
+        }
     }
 
 }

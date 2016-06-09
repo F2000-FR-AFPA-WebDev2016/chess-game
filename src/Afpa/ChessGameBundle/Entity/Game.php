@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Game {
 
+    const STATUS_WAITING = 0;
+    const STATUS_STARTED = 1;
+    const STATUS_ENDED = 2;
+
     /**
      * @var integer
      *
@@ -38,9 +42,9 @@ class Game {
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_end", type="integer")
+     * @ORM\Column(name="status", type="integer")
      */
-    protected $isEnd;
+    protected $status;
 
     /**
      * @ORM\OneToMany(targetEntity="User", mappedBy="game")
@@ -106,27 +110,6 @@ class Game {
     }
 
     /**
-     * Set isEnd
-     *
-     * @param \Integer $isEnd
-     * @return Game
-     */
-    public function setIsEnd($isEnd) {
-        $this->isEnd = $isEnd;
-
-        return $this;
-    }
-
-    /**
-     * Get isEnd
-     *
-     * @return \Integer
-     */
-    public function getIsEnd() {
-        return $this->isEnd;
-    }
-
-    /**
      * Add users
      *
      * @param \Afpa\ChessGameBundle\Entity\User $users
@@ -154,6 +137,27 @@ class Game {
      */
     public function getUsers() {
         return $this->users;
+    }
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     * @return Game
+     */
+    public function setStatus($status) {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer
+     */
+    public function getStatus() {
+        return $this->status;
     }
 
 }
