@@ -4,12 +4,12 @@ namespace Afpa\ChessGameBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Afpa\ChessGameBundle\Entity\Game;
-use Afpa\ChessGameBundle\Model\Chessboard;
 use Afpa\ChessGameBundle\Entity\User;
+use Afpa\ChessGameBundle\Model\Chessboard;
 
 class GameOnlineController extends Controller {
 
@@ -162,7 +162,8 @@ class GameOnlineController extends Controller {
                 ->add('theme', 'choice', array(
                     'choices' => array(
                         'default' => 'Default',
-                        'sexy' => 'Sexy'
+                        'sexy' => 'Sexy',
+                        'funny' => 'funny',
                     ),
                     'required' => true,
                 ))
@@ -176,12 +177,16 @@ class GameOnlineController extends Controller {
                 ))
                 ->getForm();
 
+        // On refresh si : User not connected OU User adverse doit jouer
+        $bShouldRefresh = (!$oSession->get('oUser') instanceof User) || ($oSession->get('oUser')->getId() !== $oBoard->getPlayerId());
+
         return array(
             'idGame' => $idGame,
             'form' => $oForm->createView(),
             'theme' => $sTheme,
             'board' => $oBoard->getBoard(),
             'player' => $oBoard->getPlayer(),
+            'should_refresh' => $bShouldRefresh,
         );
     }
 
@@ -190,25 +195,37 @@ class GameOnlineController extends Controller {
      * @Template()
      */
     public function doGameAction(Request $request, $idGame) {
+        $oSession = $request->getSession();
+
         $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
         $oGame = $repo->findOneBy(array(
             'id' => $idGame,
             'status' => Game::STATUS_STARTED
         ));
 
-        // condition de sortie
+        // condition de sortie 1
         if (!$oGame instanceof Game) {
-            return $this->redirect($this->generateUrl('game_list'));
+            return new JsonResponse();
         }
 
-        // TODO : Récupérer la partie
-        //
-        // TODO : Effectuer l'action
-        //
-        // TODO : Sauvegarder la partie
+        // condition de sortie 2
+        if (!$oSession->get('oUser') instanceof User) {
+            return new JsonResponse();
+        }
 
+        $x1 = $request->get('x1');
+        $y1 = $request->get('y1');
+        $x2 = $request->get('x2', null);
+        $y2 = $request->get('y2', null);
 
-        return new \Symfony\Component\HttpFoundation\JsonResponse();
+        $oBoard = unserialize($oGame->getData());
+        $aData = $oBoard->doAction($x1, $y1, $x2, $y2, $oSession->get('oUser')->getId());
+        $oGame->setData(serialize($oBoard));
+
+        // Sauvegarder la partie
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse($aData);
     }
 
 }

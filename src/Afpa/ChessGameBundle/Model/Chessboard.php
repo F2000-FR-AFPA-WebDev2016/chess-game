@@ -299,7 +299,18 @@ class Chessboard {
         return $aValid;
     }
 
-    public function doAction($x1, $y1, $x2 = null, $y2 = null) {
+    public function doAction($x1, $y1, $x2 = null, $y2 = null, $idPlayer = null) {
+        $bUserOk = true;
+        // TODO : Check joueur
+        if ($idPlayer != null) {
+            if ($this->playerTurn == Piece::WHITE) {
+                $bUserOk = ($this->playerWhite == $idPlayer);
+            } else {
+                $bUserOk = ($this->playerBlack == $idPlayer);
+            }
+        }
+
+
         $sStatus = self::STATUS_ERR;
         $bNextPlayer = false;
         $bNewSelection = false;
@@ -307,7 +318,7 @@ class Chessboard {
         $aTabPossibilities = $this->getMovePossibilities($oPiece1, $x1, $y1);
         $aTabPossEat = $this->getEatPossibilities($oPiece1, $x1, $y1);
 
-        if ($oPiece1 instanceof Piece &&
+        if ($bUserOk && $oPiece1 instanceof Piece &&
                 $this->playerTurn == $oPiece1->getColor()) {
             if (!is_null($x2) && !is_null($y2)) {
                 $oPiece2 = $this->board[$x2][$y2];
@@ -401,11 +412,11 @@ class Chessboard {
     }
 
     public function getPlayer() {
-        if ($this->playerTurn == Piece::WHITE) {
-            return 'Joueur: Blanc';
-        } else {
-            return 'Joueur: Noir';
-        }
+        return ($this->playerTurn == Piece::WHITE ? 'Joueur: Blanc' : 'Joueur: Noir');
+    }
+
+    public function getPlayerId() {
+        return ($this->playerTurn == Piece::WHITE ? $this->playerWhite : $this->playerBlack);
     }
 
     public function getPosKingCheck() {

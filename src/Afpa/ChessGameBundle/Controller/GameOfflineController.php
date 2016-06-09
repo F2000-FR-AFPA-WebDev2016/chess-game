@@ -4,7 +4,7 @@ namespace Afpa\ChessGameBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Afpa\ChessGameBundle\Entity\Game;
@@ -55,7 +55,7 @@ class GameOfflineController extends Controller {
         $oSession = $request->getSession();
         $oSession->set('theme', $theme);
 
-        return new \Symfony\Component\HttpFoundation\JsonResponse();
+        return new JsonResponse();
     }
 
     /**
@@ -69,7 +69,7 @@ class GameOfflineController extends Controller {
         $sDifficulty = $request->get('difficulty');
         $oGame->setDifficulty($sDifficulty);
 
-        return new \Symfony\Component\HttpFoundation\JsonResponse();
+        return new JsonResponse();
     }
 
     /**
@@ -139,12 +139,12 @@ class GameOfflineController extends Controller {
         $x2 = $request->get('x2', null);
         $y2 = $request->get('y2', null);
 
-        $oSession = new Session;
+        $oSession = $request->getSession();
         $oGame = $oSession->get('game', NULL);
 
         if ($oGame) {
             $aData = $oGame->doAction($x1, $y1, $x2, $y2);
-            return new \Symfony\Component\HttpFoundation\JsonResponse($aData);
+            return new JsonResponse($aData);
         }
     }
 

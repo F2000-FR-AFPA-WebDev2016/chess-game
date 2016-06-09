@@ -13,7 +13,7 @@ $(document).ready(function () {
             type: 'POST',
             url: url,
             error: function (dataerror) {
-                alert(dataerror);
+                console.log(dataerror);
             },
             success: function (data) {
                 $('#game').html(data);
@@ -78,9 +78,6 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     console.log(data);
-                    console.log(data.status);
-                    console.log(data.pos_move);
-                    console.log(data.posKingCheck);
                     if (data.status === 0) {
                         if (selected_case !== undefined) {
                             selected_case.removeClass('selected');
@@ -131,7 +128,7 @@ $(document).ready(function () {
                 'difficulty': value
             },
             error: function (dataerror) {
-                alert(dataerror);
+                console.log(dataerror);
             },
             success: function (data) {
                 refreshView();
@@ -153,11 +150,21 @@ $(document).ready(function () {
                 'theme': value
             },
             error: function (dataerror) {
-                alert(dataerror);
+                console.log(dataerror);
             },
             success: function (data) {
                 refreshView();
             }
         });
     });
+
+    if (getGameId()) {
+        setInterval(
+                function () {
+                    if ($('#board').data('refresh') === 1) {
+                        refreshView();
+                    }
+                },
+                2000);
+    }
 });
