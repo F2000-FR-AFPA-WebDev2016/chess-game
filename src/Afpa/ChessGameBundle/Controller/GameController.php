@@ -309,7 +309,8 @@ class GameController extends Controller {
                 ->add('theme', 'choice', array(
                     'choices' => array(
                         'default' => 'Default',
-                        'sexy' => 'Sexy'
+                        'sexy' => 'Sexy',
+                        'funny' => 'funny',
                     ),
                     'required' => true,
                 ))
@@ -336,23 +337,38 @@ class GameController extends Controller {
      * @Route("/game/action/{idGame}")
      * @Template()
      */
-    public function gameOnlineAction(Request $request) {
+    public function gameOnlineAction(Request $request, $idGame) {
+        $oSession = $request->getSession();
+
         $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
         $oGame = $repo->findOneBy(array(
             'id' => $idGame,
             'status' => Game::STATUS_STARTED
         ));
 
-        // condition de sortie
+        // condition de sortie 1
         if (!$oGame instanceof Game) {
-            return $this->redirect($this->generateUrl('game_list'));
+            return new \Symfony\Component\HttpFoundation\JsonResponse();
         }
 
-        // TODO : Récupérer la partie
-        // TODO : Effectuer l'action
-        // TODO : Sauvegarder la partie
+        // condition de sortie 2
+        if (!$oSession->get('oUser') instanceof User) {
+            return new \Symfony\Component\HttpFoundation\JsonResponse();
+        }
 
-        return new \Symfony\Component\HttpFoundation\JsonResponse();
+        $x1 = $request->get('x1');
+        $y1 = $request->get('y1');
+        $x2 = $request->get('x2', null);
+        $y2 = $request->get('y2', null);
+
+        $oBoard = unserialize($oGame->getData());
+        $aData = $oBoard->doAction($x1, $y1, $x2, $y2, $oSession->get('oUser')->getId());
+        $oGame->setData(serialize($oBoard));
+
+        // Sauvegarder la partie
+        $this->getDoctrine()->getManager()->flush();
+
+        return new \Symfony\Component\HttpFoundation\JsonResponse($aData);
     }
 
 }

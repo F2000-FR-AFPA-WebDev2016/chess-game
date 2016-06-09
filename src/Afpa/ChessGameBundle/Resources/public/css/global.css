@@ -23,6 +23,13 @@ header
     position: relative;
 }
 
+.funny
+
+{
+    width: 45px;
+    height: 68px;
+}
+
 li{
     color: #ccccff;
 }

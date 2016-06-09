@@ -13,7 +13,7 @@ $(document).ready(function () {
             type: 'POST',
             url: url,
             error: function (dataerror) {
-                alert(dataerror);
+                console.log(dataerror);
             },
             success: function (data) {
                 $('#game').html(data);
@@ -131,7 +131,7 @@ $(document).ready(function () {
                 'difficulty': value
             },
             error: function (dataerror) {
-                alert(dataerror);
+                console.log(dataerror);
             },
             success: function (data) {
                 refreshView();
@@ -153,11 +153,15 @@ $(document).ready(function () {
                 'theme': value
             },
             error: function (dataerror) {
-                alert(dataerror);
+                console.log(dataerror);
             },
             success: function (data) {
                 refreshView();
             }
         });
     });
+
+    if (getGameId()) {
+        //setInterval(refreshView, 2000);
+    }
 });
