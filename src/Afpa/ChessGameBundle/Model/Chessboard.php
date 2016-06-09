@@ -303,11 +303,7 @@ class Chessboard {
         $bUserOk = true;
         // TODO : Check joueur
         if ($idPlayer != null) {
-            if ($this->playerTurn == Piece::WHITE) {
-                $bUserOk = ($this->playerWhite == $idPlayer);
-            } else {
-                $bUserOk = ($this->playerBlack == $idPlayer);
-            }
+            $bUserOk = ($idPlayer == $this->getPlayerId());
         }
 
 

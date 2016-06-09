@@ -1,6 +1,9 @@
 {% extends "AfpaChessGameBundle::layout.html.twig" %}
 
 {% block title %}AfpaChessGameBundle:Game:plays{% endblock %}
+{% block redirection %}
+    <meta http-equiv="refresh" content="2; URL={{ url('game_list') }}">
+{% endblock %}
 
 {% block body %}
     <h1>Welcome at the Online Game page</h1>
