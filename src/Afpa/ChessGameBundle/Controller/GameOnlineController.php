@@ -184,7 +184,7 @@ class GameOnlineController extends Controller {
         $repos = $this->getDoctrine()->getRepository('AfpaChessGameBundle:User');
         $oUser = $repos->find($oBoard->getPlayerId());
 
-        return $this->render('AfpaChessGameBundle:Game:refreshGame.html.twig', array(
+        return $this->render('AfpaChessGameBundle:GameOnline:refreshGame.html.twig', array(
                     'idGame' => $idGame,
                     'form' => $oForm->createView(),
                     'theme' => $sTheme,

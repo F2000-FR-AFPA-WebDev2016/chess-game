@@ -79,7 +79,7 @@ class GameOfflineController extends Controller {
     }
 
     /**
-     * @Route("/game/reset")
+     * @Route("/game/reset",name="reset_game")
      * @Template()
      */
     public function resetGameAction(Request $request) {
