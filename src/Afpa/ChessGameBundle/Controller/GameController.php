@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Afpa\ChessGameBundle\Entity\Game;
 use Afpa\ChessGameBundle\Model\Chessboard;
+use Afpa\ChessGameBundle\Entity\User;
 
 class GameController extends Controller {
 
@@ -25,27 +26,7 @@ class GameController extends Controller {
             $oSession->set('theme', 'default');
         }
 
-        return $this->render('AfpaChessGameBundle:Game:home.html.twig');
-    }
-
-    /**
-     * @Route("/game/list", name="game_list")
-     * @Template()
-     */
-    public function listAction() {
-
-        $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
-        $oGames = $repo->findAll();
-
-        $oGame = null;
-        // Si l'utilisateur est connecté, on récupère la partie liée si existante
-
-
-
-        return array(
-            'games' => $oGames,
-            'game_user' => $oGame
-        );
+        return array();
     }
 
     /**
@@ -73,7 +54,7 @@ class GameController extends Controller {
     }
 
     /**
-     * @Route("/game/action", name="game_action")
+     * @Route("/game/action")
      * @Template()
      */
     public function gameAction(Request $request) {
@@ -113,7 +94,7 @@ class GameController extends Controller {
     }
 
     /**
-     * @Route("/game/view", name="view")
+     * @Route("/game/refresh")
      * @Template()
      */
     public function gameViewAction(Request $request) {
@@ -153,6 +134,61 @@ class GameController extends Controller {
     }
 
     /**
+     * @Route("game/options/difficulty")
+     * @Template()
+     */
+    public function setDifficultyAction(Request $request) {
+        $oSession = $request->getSession();
+        $oGame = $oSession->get('game');
+
+        $sDifficulty = $request->get('difficulty');
+        $oGame->setDifficulty($sDifficulty);
+
+        return new \Symfony\Component\HttpFoundation\JsonResponse();
+    }
+
+    /**
+     * @Route("options/theme")
+     * @Template()
+     */
+    public function setThemeAction(Request $request) {
+        $theme = $request->get('theme');
+
+        $oSession = $request->getSession();
+        $oSession->set('theme', $theme);
+
+        return new \Symfony\Component\HttpFoundation\JsonResponse();
+    }
+
+    /**
+     * @Route("/game/list", name="game_list")
+     * @Template()
+     */
+    public function listAction(Request $request) {
+        $oSession = $request->getSession();
+
+        $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
+        $oGames = $repo->findAll();
+
+        $oGame = null;
+        // Si l'utilisateur est connecté, on récupère la partie liée si existante
+        if ($oSession->get('oUser') instanceof User) {
+            $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:User');
+            $oUser = $repo->find($oSession->get('oUser')->getId());
+
+            $oGame = $oUser->getGame();
+            if ($oGame instanceof Game && $oGame->getStatus() == Game::STATUS_STARTED) {
+                return $this->redirect($this->generateUrl('game_play', array('idGame' => $oGame->getId())));
+            }
+        }
+
+        return array(
+            'games' => $oGames,
+            'game_user' => $oGame
+        );
+    }
+
+    /**
      * @Route("/game/create", name="create")
      * @Template()
      */
@@ -167,7 +203,7 @@ class GameController extends Controller {
         $oGame = new Game;
         $oGame->setCreatedDate(new \DateTime('now'));
         $oGame->setData('');
-        $oGame->setIsEnd(0);
+        $oGame->setStatus(Game::STATUS_WAITING);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($oGame);
@@ -185,38 +221,10 @@ class GameController extends Controller {
     }
 
     /**
-     * @Route("game/options/difficulty")
-     * @Template()
-     */
-    public function setDifficultyAction(Request $request) {
-        $oSession = $request->getSession();
-        $oGame = $oSession->get('game');
-
-        $sDifficulty = $request->get('difficulty');
-        $oGame->setDifficulty($sDifficulty);
-
-        return new \Symfony\Component\HttpFoundation\JsonResponse();
-    }
-
-    /**
-     * @Route("game/options/theme")
-     * @Template()
-     */
-    public function setThemeAction(Request $request) {
-        $theme = $request->get('theme');
-
-        $oSession = $request->getSession();
-        $oSession->set('theme', $theme);
-
-        return new \Symfony\Component\HttpFoundation\JsonResponse();
-    }
-
-    /**
      * @Route("/game/join/{idGame}", name="join")
      * @Template()
      * */
     public function joinGameAction(Request $request, $idGame) {
-
         $oSession = $request->getSession();
 
         // Si l'utilisateur n'est pas connecté, redirection list :
@@ -227,29 +235,124 @@ class GameController extends Controller {
         $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
         $oGame = $repo->find($idGame);
 
-        $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:User');
-        $oUser = $repo->find($oSession->get('oUser')->getId());
-        $oUser->setGame($oGame);
+        if ($oGame instanceof Game) {
+            $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:User');
+            $oUser = $repo->find($oSession->get('oUser')->getId());
+            $oUser->setGame($oGame);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
 
-        //if(user connected)
-        if ($oSession->get('oUser') instanceof User) {
-            $oSession = $request->getSession();
-            $oGame = $oSession->get('game');
-            if (!$oGame) {
-                //new chessboard
-                $oGame = new Chessboard;
-                $oSession->set('game', $oGame);
+            if (count($oGame->getUsers()) == 2) {
+                $oBoard = new Chessboard;
+                $oBoard->setPlayers($oGame);
+
+                $oGame->setStatus(Game::STATUS_STARTED);
+                $oGame->setData(serialize($oBoard));
+
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('game_play', array('idGame' => $oGame->getId())));
             }
-            //$oUser->setStatus($oGame);
-            //$oUser->setData($oGame);
-            //$em = $this->getDoctrine()->getManager();
-            //$em->flush();
-
-            return $this->render('AfpaChessGameBundle:Game:home.html.twig');
         }
+        return $this->redirect($this->generateUrl('game_list'));
+    }
+
+    /**
+     * @Route("/game/play/{idGame}", name="game_play")
+     * @Template()
+     * */
+    public function playGameAction($idGame) {
+        $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
+        $oGame = $repo->findOneBy(array(
+            'id' => $idGame,
+            'status' => Game::STATUS_STARTED
+        ));
+
+        // condition de sortie
+        if (!$oGame instanceof Game) {
+            return $this->redirect($this->generateUrl('game_list'));
+        }
+
+        return array(
+            'idGame' => $idGame
+        );
+    }
+
+    /**
+     * @Route("/game/refresh/{idGame}", name="refresh")
+     * @Template()
+     */
+    public function refreshGameAction(Request $request, $idGame) {
+        $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
+        $oGame = $repo->findOneBy(array(
+            'id' => $idGame,
+            'status' => Game::STATUS_STARTED
+        ));
+
+        // condition de sortie
+        if (!$oGame instanceof Game) {
+            return $this->redirect($this->generateUrl('game_list'));
+        }
+
+        // récupération de la partie
+        $oBoard = unserialize($oGame->getData());
+
+        $oSession = $request->getSession();
+        $sTheme = $oSession->get('theme');
+
+        $defaultData = array(
+            'theme' => $sTheme,
+            'difficulty' => $oBoard->getDifficulty()
+        );
+        $oForm = $this->createFormBuilder($defaultData)
+                ->add('theme', 'choice', array(
+                    'choices' => array(
+                        'default' => 'Default',
+                        'sexy' => 'Sexy'
+                    ),
+                    'required' => true,
+                ))
+                ->add('difficulty', 'choice', array(
+                    'choices' => array(
+                        Chessboard::DIFFICULTY_EASY => 'Easy',
+                        Chessboard::DIFFICULTY_MEDIUM => 'Medium',
+                        Chessboard::DIFFICULTY_HARD => 'Hard',
+                    ),
+                    'required' => true,
+                ))
+                ->getForm();
+
+        return $this->render('AfpaChessGameBundle:Game:refreshGame.html.twig', array(
+                    'idGame' => $idGame,
+                    'form' => $oForm->createView(),
+                    'theme' => $sTheme,
+                    'board' => $oBoard->getBoard(),
+                    'player' => $oBoard->getPlayer(),
+        ));
+    }
+
+    /**
+     * @Route("/game/action/{idGame}")
+     * @Template()
+     */
+    public function gameOnlineAction(Request $request) {
+        $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
+        $oGame = $repo->findOneBy(array(
+            'id' => $idGame,
+            'status' => Game::STATUS_STARTED
+        ));
+
+        // condition de sortie
+        if (!$oGame instanceof Game) {
+            return $this->redirect($this->generateUrl('game_list'));
+        }
+
+        // TODO : Récupérer la partie
+        // TODO : Effectuer l'action
+        // TODO : Sauvegarder la partie
+
+        return new \Symfony\Component\HttpFoundation\JsonResponse();
     }
 
 }
