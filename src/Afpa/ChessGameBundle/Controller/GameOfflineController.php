@@ -7,27 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Afpa\ChessGameBundle\Entity\Game;
 use Afpa\ChessGameBundle\Model\Chessboard;
-use Afpa\ChessGameBundle\Entity\User;
 
 class GameOfflineController extends Controller {
-
-    /**
-     * @Route("/",name="home")
-     * @Template()
-     */
-    public function playGameAction(Request $request) {
-        $oSession = $request->getSession();
-        $oGame = $oSession->get('game');
-        if (!$oGame) {
-            $oGame = new Chessboard;
-            $oSession->set('game', $oGame);
-            $oSession->set('theme', 'default');
-        }
-
-        return array();
-    }
 
     /**
      * @Route("/credits", name="credits")
@@ -42,6 +24,22 @@ class GameOfflineController extends Controller {
      * @Template()
      */
     public function rulesAction() {
+        return array();
+    }
+
+    /**
+     * @Route("/",name="home")
+     * @Template()
+     */
+    public function playGameAction(Request $request) {
+        $oSession = $request->getSession();
+        $oGame = $oSession->get('game');
+        if (!$oGame) {
+            $oGame = new Chessboard;
+            $oSession->set('game', $oGame);
+            $oSession->set('theme', 'default');
+        }
+
         return array();
     }
 
