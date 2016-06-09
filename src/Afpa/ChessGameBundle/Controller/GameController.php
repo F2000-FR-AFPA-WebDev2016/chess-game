@@ -327,6 +327,10 @@ class GameController extends Controller {
         // On refresh si : User not connected OU User adverse doit jouer
         $bShouldRefresh = (!$oSession->get('oUser') instanceof User) || ($oSession->get('oUser')->getId() !== $oBoard->getPlayerId());
 
+        //Onrecupere le nom du jeur
+        $repos = $this->getDoctrine()->getRepository('AfpaChessGameBundle:User');
+        $oUser = $repos->find($oBoard->getPlayerId());
+
         return $this->render('AfpaChessGameBundle:Game:refreshGame.html.twig', array(
                     'idGame' => $idGame,
                     'form' => $oForm->createView(),
@@ -334,6 +338,7 @@ class GameController extends Controller {
                     'board' => $oBoard->getBoard(),
                     'player' => $oBoard->getPlayer(),
                     'should_refresh' => $bShouldRefresh,
+                    'name' => $oUser->getNickname()
         ));
     }
 

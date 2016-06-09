@@ -2,7 +2,7 @@
 <form method="POST" >
     {{ form_widget(form) }}
 </form>
-<p> {{player}}</p>
+<p>Le tour de: {{name}} {{ player}}</p>
 
 <table id="board" data-id="{{ idGame }}" data-refresh="{{ should_refresh }}">
     <thead>
