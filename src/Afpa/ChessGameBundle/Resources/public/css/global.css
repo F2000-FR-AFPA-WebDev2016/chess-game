@@ -8,8 +8,8 @@ body
     font-family: Monopoly Bold;
     max-width:1200px;
     margin: auto;
-    background-image: url('../images/default/back.png');
-    background-repeat:no-repeat;
+    background-image: url('../images/default/tileable_wood_texture.png');
+    background-repeat:repeat;
 }
 
 header
