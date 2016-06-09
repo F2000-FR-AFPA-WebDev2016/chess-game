@@ -6,7 +6,7 @@
     <h1>Welcome at the Online Game page</h1>
 
     {% if app.request.session.get('oUser') is not null %}
-        <a href = "{{path('create')}}">Start a new game</a>
+        <a href = "{{path('game_create')}}">Start a new game</a>
     {% else %}
         <a href = "{{path('login')}}">Login to start a new game</a>
     {% endif %}
@@ -31,13 +31,13 @@
 
                     {% elseif (game.getUsers|length < 2) %}
                         {% if app.request.session.get('oUser') is not null %}
-                            <a href="{{path('join', {idGame : game.id})}}">Join</a><br />
+                            <a href="{{path('game_join', {idGame : game.id})}}">Join</a><br />
                         {% else %}
                             <a href="{{path('login')}}">Login to play</a><br />
                         {% endif %}
 
                     {% else %}
-                        <a href = "{{ path('home') }}">Watch</a>
+                        <a href = "{{ path('game_play', {idGame : game.id}) }}">Watch</a>
                     {%endif%}
                 </td>
             </tr>

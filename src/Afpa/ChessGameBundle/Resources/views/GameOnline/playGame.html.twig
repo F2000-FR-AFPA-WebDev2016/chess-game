@@ -1,17 +1,9 @@
-
 {% extends "AfpaChessGameBundle::layout.html.twig" %}
-
-
 
 {% block title %}AfpaChessGameBundle:Game:home{% endblock %}
 
 {% block body %}
-
-    <h2 id="new_partie">
-        <a href="{{ path("reset_game")}}">New game</a>
-    </h2>
-
     <div id="game">
-        {{ render(controller('AfpaChessGameBundle:Game:gameView')) }}
+        {{ render(controller('AfpaChessGameBundle:GameOnline:refreshGame', {'idGame' : idGame})) }}
     </div>
 {% endblock %}
