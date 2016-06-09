@@ -412,11 +412,11 @@ class Chessboard {
     }
 
     public function getPlayer() {
-        if ($this->playerTurn == Piece::WHITE) {
-            return 'Joueur: Blanc';
-        } else {
-            return 'Joueur: Noir';
-        }
+        return ($this->playerTurn == Piece::WHITE ? 'Joueur: Blanc' : 'Joueur: Noir');
+    }
+
+    public function getPlayerId() {
+        return ($this->playerTurn == Piece::WHITE ? $this->playerWhite : $this->playerBlack);
     }
 
     public function getPosKingCheck() {
