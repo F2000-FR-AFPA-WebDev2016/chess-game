@@ -335,7 +335,7 @@ class GameController extends Controller {
      * @Route("/game/action/{idGame}")
      * @Template()
      */
-    public function gameAction(Request $request) {
+    public function gameOnlineAction(Request $request) {
         $repo = $this->getDoctrine()->getRepository('AfpaChessGameBundle:Game');
         $oGame = $repo->findOneBy(array(
             'id' => $idGame,
